@@ -1,0 +1,15 @@
+# Care Plan Generation Result - Response from care plan generation endpoint
+class: CarePlanGenerationResult
+fields:
+  carePlanId: int
+  animalIdentificationRecordId: int
+  version: int
+  generatedAt: DateTime
+  generationConfidence: double
+  summary: String?
+  totalDailyTimeMinutes: int
+  totalWeeklyTimeMinutes: int
+  dailyTasks: List<CarePlanTaskResponse>
+  weeklyTasks: List<CarePlanTaskResponse>
+  yearlyTasks: List<CarePlanTaskResponse>
+  modelName: String

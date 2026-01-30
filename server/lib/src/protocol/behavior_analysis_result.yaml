@@ -1,0 +1,31 @@
+class: BehaviorAnalysisResult
+table: behavior_analysis_result
+fields:
+  userIdentifier: String
+  createdAt: DateTime
+  requestId: String
+  videoSha256: String
+  videoDurationSeconds: double
+  identifiedSpecies: String?
+  identifiedBreed: String?
+  activityLevel: String
+  emotionalState: String
+  behaviorPatternsJson: String
+  movementSummary: String
+  postureSummary: String
+  vocalizationSummary: String
+  movementPatternsJson: String
+  vocalizationPatternsJson: String
+  keyFramesJson: String
+  analysisConfidence: double
+  modelName: String
+  modelResponseCiphertext: String
+  modelResponseNonce: String
+  modelResponseMac: String
+indexes:
+  behavior_analysis_user_created_at_index:
+    fields: userIdentifier, createdAt
+    unique: false
+  behavior_analysis_species_index:
+    fields: identifiedSpecies
+    unique: false

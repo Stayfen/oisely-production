@@ -1,0 +1,40 @@
+# Care Plan Task - Individual task within a care plan
+# Represents a single care task with duration and priority
+class: CarePlanTask
+table: care_plan_task
+fields:
+  # Foreign key to the care plan
+  carePlanId: int, relation(parent=animal_care_plan)
+  
+  # Task classification
+  taskType: String  # 'daily', 'weekly', 'yearly'
+  
+  # Task details
+  title: String
+  description: String
+  
+  # Time estimate in minutes
+  estimatedDurationMinutes: int
+  
+  # Priority level: 'low', 'medium', 'high', 'critical'
+  priority: String
+  
+  # Optional scheduling information
+  suggestedTimeOfDay: String?  # e.g., 'morning', 'afternoon', 'evening', 'any'
+  
+  # AI-generated reasoning for this task
+  aiReasoning: String?
+  
+  # Metadata
+  createdAt: DateTime
+  
+indexes:
+  care_plan_task_plan_id_index:
+    fields: carePlanId
+    unique: false
+  care_plan_task_type_index:
+    fields: carePlanId, taskType
+    unique: false
+  care_plan_task_priority_index:
+    fields: priority
+    unique: false

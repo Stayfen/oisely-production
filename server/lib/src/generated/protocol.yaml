@@ -1,0 +1,24 @@
+emailIdp:
+  - login:
+  - startRegistration:
+  - verifyRegistrationCode:
+  - finishRegistration:
+  - startPasswordReset:
+  - verifyPasswordResetCode:
+  - finishPasswordReset:
+jwtRefresh:
+  - refreshAccessToken:
+animalIdentification:
+  - identifyAnimal:
+behaviorAnalysis:
+  - analyzeBehavior:
+carePlan:
+  - generateCarePlan:
+  - getCarePlan:
+  - listCarePlansForAnimal:
+  - archiveCarePlan:
+magicLink:
+  - sendMagicLink:
+  - verifyMagicLink:
+greeting:
+  - hello:

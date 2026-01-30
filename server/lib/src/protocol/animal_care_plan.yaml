@@ -1,0 +1,52 @@
+# Animal Care Plan - AI-generated care schedule for an animal
+# Links to AnimalIdentificationRecord and contains multiple tasks
+class: AnimalCarePlan
+table: animal_care_plan
+fields:
+  # Foreign key to the animal identification record
+  animalIdentificationRecordId: int
+  
+  # User who generated this care plan
+  userIdentifier: String
+  
+  # Version tracking for care plan updates
+  version: int
+  
+  # Generation metadata
+  generatedAt: DateTime
+  modelName: String
+  
+  # AI generation confidence score
+  generationConfidence: double
+  
+  # Summary of the care plan
+  summary: String?
+  
+  # Total estimated daily time commitment in minutes
+  totalDailyTimeMinutes: int
+  
+  # Total estimated weekly time commitment in minutes
+  totalWeeklyTimeMinutes: int
+  
+  # Status: 'active', 'archived', 'superseded'
+  status: String
+  
+  # Relations - tasks associated with this care plan
+  tasks: List<CarePlanTask>?, relation
+  
+indexes:
+  animal_care_plan_animal_id_index:
+    fields: animalIdentificationRecordId
+    unique: false
+  animal_care_plan_user_index:
+    fields: userIdentifier
+    unique: false
+  animal_care_plan_version_index:
+    fields: animalIdentificationRecordId, version
+    unique: true
+  animal_care_plan_status_index:
+    fields: status
+    unique: false
+  animal_care_plan_generated_at_index:
+    fields: userIdentifier, generatedAt
+    unique: false

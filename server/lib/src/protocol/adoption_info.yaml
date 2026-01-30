@@ -1,0 +1,13 @@
+class: AdoptionInfo
+fields:
+  species: String
+  breed: String?
+  adoptionCost: String
+  dietaryRequirements: String
+  livingEnvironment: String
+  careInstructions: String
+  dailyTimeCommitment: String
+  averageLifespan: String
+  breedSpecificInfo: String
+  legalRequirements: String
+  confidence: double

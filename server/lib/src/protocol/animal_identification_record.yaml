@@ -1,0 +1,17 @@
+class: AnimalIdentificationRecord
+table: animal_identification_record
+fields:
+  userIdentifier: String
+  species: String
+  breed: String?
+  confidence: double
+  createdAt: DateTime
+  imageSha256: String
+  modelName: String
+indexes:
+  animal_identification_user_created_at_index:
+    fields: userIdentifier, createdAt
+    unique: false
+  animal_identification_species_index:
+    fields: species
+    unique: false

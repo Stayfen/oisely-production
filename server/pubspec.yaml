@@ -1,0 +1,42 @@
+name: oisely_server
+description: Server for Oisely - The AI Guardian for your Pet's Life
+# version: 1.0.0
+# homepage: https://www.example.com
+
+environment:
+  sdk: '^3.8.0'
+
+dependencies:
+  cryptography: ^2.7.0
+  google_generative_ai: ^0.4.7
+  http: ^1.6.0
+  postgres: ^3.5.9
+  serverpod: 3.2.3
+  serverpod_auth_core_server: ^3.2.3
+  serverpod_auth_idp_server: 3.2.3
+  serverpod_auth_server: ^3.2.3
+
+dev_dependencies:
+  lints: '>=3.0.0 <7.0.0'
+  serverpod_cli: 3.2.3
+  serverpod_test: 3.2.3
+  test: ^1.25.5
+
+
+serverpod:
+  scripts:
+    # Starts the server and applies migrations
+    start: dart bin/main.dart --apply-migrations
+
+    # Build the Flutter web app and copy it to the server's web directory.
+    # Windows uses xcopy since flutter's --output flag doesn't work there.
+    # See: https://github.com/flutter/flutter/issues/157886
+    flutter_build:
+      windows: >-
+        (if exist web\app rmdir /S /Q web\app)
+        & cd /D ..\app
+        && flutter build web --base-href /app/ --wasm
+        && xcopy /E /I /Y build\web ..\server\web\app
+      posix: |
+        cd ../app
+        flutter build web --base-href /app/ --wasm --output ../server/web/app

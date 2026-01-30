@@ -1,0 +1,5 @@
+class: BehaviorFrameInsight
+fields:
+  timestampSeconds: double
+  action: String
+  bodyLanguage: String?

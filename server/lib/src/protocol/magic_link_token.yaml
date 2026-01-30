@@ -1,0 +1,11 @@
+class: MagicLinkToken
+table: magic_link_token
+fields:
+  token: String
+  email: String
+  requestedAt: DateTime
+  expiration: DateTime
+indexes:
+  email_index:
+    fields: email
+    unique: false

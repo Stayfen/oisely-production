@@ -1,0 +1,11 @@
+# Care Plan Task Response - Serializable task data for API response
+class: CarePlanTaskResponse
+fields:
+  id: int
+  taskType: String
+  title: String
+  description: String
+  estimatedDurationMinutes: int
+  priority: String
+  suggestedTimeOfDay: String?
+  aiReasoning: String?

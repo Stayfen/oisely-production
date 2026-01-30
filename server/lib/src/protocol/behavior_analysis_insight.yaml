@@ -1,0 +1,18 @@
+class: BehaviorAnalysisInsight
+fields:
+  analysisId: int
+  identifiedSpecies: String?
+  identifiedBreed: String?
+  activityLevel: String
+  emotionalState: String
+  behaviorPatterns: List<String>
+  movementSummary: String
+  postureSummary: String
+  vocalizationSummary: String
+  movementPatterns: List<String>
+  vocalizationPatterns: List<String>
+  keyFrames: List<BehaviorFrameInsight>
+  analysisConfidence: double
+  videoDurationSeconds: double
+  modelName: String
+  requestId: String
