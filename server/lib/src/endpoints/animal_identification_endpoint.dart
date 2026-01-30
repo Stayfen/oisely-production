@@ -7,12 +7,15 @@ import '../generated/protocol.dart';
 
 class AnimalIdentificationEndpoint extends Endpoint {
   static const _maxImageSize = 10 * 1024 * 1024; // 10 MB
-  static const _modelName = 'gemini-flash-latest';
+  static const _modelName = 'gemini-3-flash-preview';
 
   @override
   bool get requireLogin => true;
 
-  Future<AdoptionInfo> identifyAnimal(Session session, String imageBase64) async {
+  Future<AdoptionInfo> identifyAnimal(
+    Session session,
+    String imageBase64,
+  ) async {
     final authInfo = await session.authenticated;
     final userIdentifier = authInfo?.userIdentifier;
     if (userIdentifier == null) {
@@ -21,16 +24,17 @@ class AnimalIdentificationEndpoint extends Endpoint {
     final userIdentifierValue = userIdentifier.toString();
 
     final rateLimitKey = 'animal_ident_rate_limit_$userIdentifierValue';
-    var rateLimitEntry = await session.caches.local.get(rateLimitKey) as RateLimitCounter?;
+    var rateLimitEntry =
+        await session.caches.local.get(rateLimitKey) as RateLimitCounter?;
     var count = rateLimitEntry?.count ?? 0;
-    
+
     if (count >= 10) {
       throw Exception('Rate limit exceeded. Please try again later.');
     }
 
     await session.caches.local.put(
-      rateLimitKey, 
-      RateLimitCounter(count: count + 1), 
+      rateLimitKey,
+      RateLimitCounter(count: count + 1),
       lifetime: Duration(minutes: 1),
     );
 
@@ -43,13 +47,16 @@ class AnimalIdentificationEndpoint extends Endpoint {
     }
 
     if (imageBytes.length > _maxImageSize) {
-      session.log('Image too large: ${imageBytes.length} bytes', level: LogLevel.warning);
+      session.log(
+        'Image too large: ${imageBytes.length} bytes',
+        level: LogLevel.warning,
+      );
       throw Exception('Image size exceeds the limit of 10MB');
     }
-    
+
     // Check for empty image
     if (imageBytes.isEmpty) {
-       throw Exception('Image data is empty');
+      throw Exception('Image data is empty');
     }
 
     try {
@@ -83,11 +90,11 @@ class AnimalIdentificationEndpoint extends Endpoint {
         Content.multi([
           TextPart(prompt),
           DataPart('image/jpeg', imageBytes),
-        ])
+        ]),
       ];
 
       final response = await model.generateContent(content);
-      
+
       if (response.text == null) {
         session.log('Gemini returned empty response', level: LogLevel.error);
         throw Exception('Failed to identify animal');
@@ -98,15 +105,23 @@ class AnimalIdentificationEndpoint extends Endpoint {
       try {
         jsonResponse = jsonDecode(response.text!) as Map<String, dynamic>;
       } catch (e) {
-        session.log('Failed to parse Gemini JSON response: ${response.text}', level: LogLevel.error);
+        session.log(
+          'Failed to parse Gemini JSON response: ${response.text}',
+          level: LogLevel.error,
+        );
         throw Exception('Failed to parse AI response');
       }
-      
-      if (jsonResponse['species'] == 'Unknown' || (jsonResponse['confidence'] as num? ?? 0) < 0.4) {
-         session.log('Animal not identified or low confidence: ${jsonResponse['confidence']}', level: LogLevel.info);
+
+      if (jsonResponse['species'] == 'Unknown' ||
+          (jsonResponse['confidence'] as num? ?? 0) < 0.4) {
+        session.log(
+          'Animal not identified or low confidence: ${jsonResponse['confidence']}',
+          level: LogLevel.info,
+        );
       }
 
       final adoptionInfo = AdoptionInfo(
+        id: 0, // Temporary ID, will be replaced after database insert
         species: jsonResponse['species'] ?? 'Unknown',
         breed: jsonResponse['breed'],
         adoptionCost: jsonResponse['adoptionCost'] ?? 'Unknown',
@@ -130,9 +145,28 @@ class AnimalIdentificationEndpoint extends Endpoint {
         imageSha256: imageHash,
         modelName: _modelName,
       );
-      await AnimalIdentificationRecord.db.insertRow(session, record);
+      final insertedRecord = await AnimalIdentificationRecord.db.insertRow(
+        session,
+        record,
+      );
 
-      return adoptionInfo;
+      // Create AdoptionInfo with the database ID
+      final adoptionInfoWithId = AdoptionInfo(
+        id: insertedRecord.id!,
+        species: adoptionInfo.species,
+        breed: adoptionInfo.breed,
+        adoptionCost: adoptionInfo.adoptionCost,
+        dietaryRequirements: adoptionInfo.dietaryRequirements,
+        livingEnvironment: adoptionInfo.livingEnvironment,
+        careInstructions: adoptionInfo.careInstructions,
+        dailyTimeCommitment: adoptionInfo.dailyTimeCommitment,
+        averageLifespan: adoptionInfo.averageLifespan,
+        breedSpecificInfo: adoptionInfo.breedSpecificInfo,
+        legalRequirements: adoptionInfo.legalRequirements,
+        confidence: adoptionInfo.confidence,
+      );
+
+      return adoptionInfoWithId;
     } catch (e, stackTrace) {
       session.log(
         'Error identifying animal',
@@ -141,7 +175,7 @@ class AnimalIdentificationEndpoint extends Endpoint {
         level: LogLevel.error,
       );
       // If it's already an exception we threw, rethrow it
-      if (e.toString().contains('User must be logged in') || 
+      if (e.toString().contains('User must be logged in') ||
           e.toString().contains('Rate limit exceeded') ||
           e.toString().contains('Invalid image format') ||
           e.toString().contains('Image size exceeds') ||

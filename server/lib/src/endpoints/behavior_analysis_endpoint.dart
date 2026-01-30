@@ -42,7 +42,10 @@ class BehaviorAnalysisEndpoint extends Endpoint {
       }
 
       if (videoBytes.length > _maxVideoSize) {
-        session.log('Video too large: ${videoBytes.length} bytes', level: LogLevel.warning);
+        session.log(
+          'Video too large: ${videoBytes.length} bytes',
+          level: LogLevel.warning,
+        );
         throw Exception('Video size exceeds the limit of 5MB');
       }
 
@@ -156,7 +159,8 @@ class BehaviorAnalysisEndpoint extends Endpoint {
 
   Future<void> _checkRateLimit(Session session, String userIdentifier) async {
     final rateLimitKey = 'behavior_analysis_rate_limit_$userIdentifier';
-    var rateLimitEntry = await session.caches.local.get(rateLimitKey) as RateLimitCounter?;
+    var rateLimitEntry =
+        await session.caches.local.get(rateLimitKey) as RateLimitCounter?;
     var count = rateLimitEntry?.count ?? 0;
     if (count >= 3) {
       throw Exception('Rate limit exceeded. Please try again later.');
@@ -303,7 +307,10 @@ Ensure keyFrames include 3 to 8 entries across the video timeline.
     required String requestId,
   }) async {
     if (_shouldUseTestResponse(session)) {
-      return _buildTestResponse(durationSeconds: durationSeconds, requestId: requestId);
+      return _buildTestResponse(
+        durationSeconds: durationSeconds,
+        requestId: requestId,
+      );
     }
     final model = GenerativeModel(
       model: _modelName,
@@ -414,7 +421,11 @@ Ensure keyFrames include 3 to 8 entries across the video timeline.
         return null;
       }
       if (type == 'moov') {
-        return _extractMvhdDuration(bytes, offset + headerSize, boxSize - headerSize);
+        return _extractMvhdDuration(
+          bytes,
+          offset + headerSize,
+          boxSize - headerSize,
+        );
       }
       offset += boxSize;
     }
@@ -499,7 +510,10 @@ Ensure keyFrames include 3 to 8 entries across the video timeline.
     return base64UrlEncode(bytes);
   }
 
-  Future<_EncryptedPayload> _encryptResponse(Session session, String plaintext) async {
+  Future<_EncryptedPayload> _encryptResponse(
+    Session session,
+    String plaintext,
+  ) async {
     final keyBytes = base64Decode(_readBehaviorAnalysisEncryptionKey(session));
     if (keyBytes.length != 32) {
       throw Exception('Behavior analysis encryption key must be 32 bytes');

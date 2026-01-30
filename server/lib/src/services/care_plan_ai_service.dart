@@ -6,7 +6,7 @@ import '../generated/protocol.dart';
 
 /// Service for generating intelligent care plans using AI
 class CarePlanAiService {
-  static const _modelName = 'gemini-2.0-flash';
+  static const _modelName = 'gemini-3-flash-preview';
 
   // Task limits to prevent overload
   static const int minDailyTasks = 3;
