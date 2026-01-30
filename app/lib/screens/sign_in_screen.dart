@@ -187,7 +187,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   // Hero section with dynamic height
                   SliverToBoxAdapter(
                     child: SizedBox(
-                      height: constraints.maxHeight * 0.42,
+                      height: constraints.maxHeight * 0.585,
                       child: const AuthHeroSection(),
                     ),
                   ),
@@ -209,7 +209,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ],
                       ),
                       // Overlap the hero section slightly
-                      transform: Matrix4.translationValues(0, -20, 0),
+                      transform: Matrix4.translationValues(0, -24, 0),
                       child: ClipRRect(
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(28),
