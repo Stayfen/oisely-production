@@ -561,39 +561,7 @@ class _AuthFormSectionState extends State<AuthFormSection> {
           Center(
             child: Column(
               children: [
-                // Animated logo container
-                Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            OiselyColors.primary.withAlpha(20),
-                            OiselyColors.secondary.withAlpha(15),
-                          ],
-                        ),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: OiselyColors.primary.withAlpha(30),
-                          width: 2,
-                        ),
-                      ),
-                      child: Image.asset(
-                        'assets/icons/icon.png',
-                        width: 56,
-                        height: 56,
-                      ),
-                    )
-                    .animate()
-                    .scale(
-                      begin: const Offset(0.7, 0.7),
-                      end: const Offset(1, 1),
-                      duration: 500.ms,
-                      curve: Curves.easeOutBack,
-                    )
-                    .fadeIn(duration: 400.ms),
-                const SizedBox(height: 28),
+                const SizedBox(height: 18),
                 // Welcome text
                 Text(
                       'Welcome back',
@@ -796,47 +764,6 @@ class _AuthFormSectionState extends State<AuthFormSection> {
             ),
           ).animate().fadeIn(delay: 550.ms, duration: 400.ms),
           const SizedBox(height: 40),
-
-          // Social sign-in divider (visual only - no backend change)
-          Row(
-            children: [
-              Expanded(
-                child: Divider(color: OiselyColors.outline.withAlpha(60)),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'or continue with',
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    color: OiselyColors.onSurfaceVariant.withAlpha(150),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Divider(color: OiselyColors.outline.withAlpha(60)),
-              ),
-            ],
-          ).animate().fadeIn(delay: 650.ms, duration: 400.ms),
-          const SizedBox(height: 20),
-
-          // Social buttons placeholder
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _SocialButton(
-                icon: Icons.g_mobiledata_rounded,
-                label: 'Google',
-                delay: 700,
-              ),
-              const SizedBox(width: 12),
-              _SocialButton(
-                icon: Icons.apple_rounded,
-                label: 'Apple',
-                delay: 750,
-              ),
-            ],
-          ),
         ],
       ),
     );
@@ -1057,8 +984,8 @@ class AuthCodeVerifySection extends StatelessWidget {
         color: OiselyColors.onSurface,
       ),
       decoration: BoxDecoration(
-        color: OiselyColors.surfaceVariant.withAlpha(80),
-        border: Border.all(color: OiselyColors.outline.withAlpha(60)),
+        color: OiselyColors.grey100,
+        border: Border.all(color: OiselyColors.grey300, width: 1.5),
         borderRadius: BorderRadius.circular(12),
       ),
     );
@@ -1072,7 +999,7 @@ class AuthCodeVerifySection extends StatelessWidget {
           // Email sent illustration
           Center(
                 child: Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
@@ -1090,7 +1017,7 @@ class AuthCodeVerifySection extends StatelessWidget {
                   ),
                   child: Icon(
                     Icons.mark_email_read_rounded,
-                    size: 48,
+                    size: 36,
                     color: OiselyColors.primary,
                   ),
                 ),
@@ -1103,32 +1030,32 @@ class AuthCodeVerifySection extends StatelessWidget {
                 curve: Curves.easeOutBack,
               )
               .fadeIn(duration: 400.ms),
-          const SizedBox(height: 28),
+          const SizedBox(height: 20),
 
           // Title
           Text(
                 'Check your inbox',
                 style: GoogleFonts.inter(
-                  fontSize: 26,
+                  fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: OiselyColors.onBackground,
-                  letterSpacing: -0.5,
+                  letterSpacing: -0.3,
                 ),
                 textAlign: TextAlign.center,
               )
               .animate()
               .fadeIn(delay: 150.ms, duration: 400.ms)
               .moveY(begin: 10, end: 0, duration: 400.ms),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
 
           // Subtitle with email
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
               style: GoogleFonts.inter(
-                fontSize: 15,
+                fontSize: 14,
                 color: OiselyColors.onSurfaceVariant,
-                height: 1.5,
+                height: 1.4,
               ),
               children: [
                 const TextSpan(text: 'We sent a verification code to\n'),

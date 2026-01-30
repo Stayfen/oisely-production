@@ -187,7 +187,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   // Hero section with dynamic height
                   SliverToBoxAdapter(
                     child: SizedBox(
-                      height: constraints.maxHeight * 0.42,
+                      height: constraints.maxHeight * 0.59,
                       child: const AuthHeroSection(),
                     ),
                   ),
