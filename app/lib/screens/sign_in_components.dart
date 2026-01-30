@@ -1120,7 +1120,7 @@ class _SocialButton extends StatelessWidget {
   }
 }
 
-/// The Verification Code Section.
+/// Modern OTP Verification Section.
 class AuthCodeVerifySection extends StatelessWidget {
   final String email;
   final TextEditingController otpController;
@@ -1142,212 +1142,263 @@ class AuthCodeVerifySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
-      width: 52,
-      height: 60,
-      textStyle: OiselyTypography.h3.copyWith(
+      width: 50,
+      height: 58,
+      textStyle: GoogleFonts.inter(
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
         color: OiselyColors.onSurface,
-        fontWeight: FontWeight.bold,
       ),
       decoration: BoxDecoration(
-        color: OiselyColors.surfaceVariant.withAlpha(127),
-        border: Border.all(color: OiselyColors.outline.withAlpha(127)),
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(10),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        color: OiselyColors.surfaceVariant.withAlpha(80),
+        border: Border.all(color: OiselyColors.outline.withAlpha(60)),
+        borderRadius: BorderRadius.circular(12),
       ),
     );
 
-    return Padding(
-      padding: const EdgeInsets.all(OiselySpacing.xl),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Email icon with animation
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  OiselyColors.primary.withAlpha(40),
-                  OiselyColors.tertiary.withAlpha(40),
-                ],
-              ),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.mark_email_read_outlined,
-              size: 48,
-              color: OiselyColors.primary,
-            ),
-          ).animate().scale(
-            begin: const Offset(0.5, 0.5),
-            end: const Offset(1, 1),
-            duration: 500.ms,
-            curve: Curves.elasticOut,
-          ),
-          const SizedBox(height: OiselySpacing.xl),
-          Text(
-                'Check your email 📬',
-                style: OiselyTypography.h2.copyWith(
-                  color: OiselyColors.onBackground,
+          // Email sent illustration
+          Center(
+            child: Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    OiselyColors.primary.withAlpha(20),
+                    OiselyColors.tertiary.withAlpha(15),
+                  ],
                 ),
-                textAlign: TextAlign.center,
-              )
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: OiselyColors.primary.withAlpha(30),
+                  width: 2,
+                ),
+              ),
+              child: Icon(
+                Icons.mark_email_read_rounded,
+                size: 48,
+                color: OiselyColors.primary,
+              ),
+            ),
+          )
               .animate()
-              .fadeIn(delay: 200.ms, duration: 400.ms)
+              .scale(
+                begin: const Offset(0.5, 0.5),
+                end: const Offset(1, 1),
+                duration: 500.ms,
+                curve: Curves.easeOutBack,
+              )
+              .fadeIn(duration: 400.ms),
+          const SizedBox(height: 28),
+
+          // Title
+          Text(
+            'Check your inbox',
+            style: GoogleFonts.inter(
+              fontSize: 26,
+              fontWeight: FontWeight.w700,
+              color: OiselyColors.onBackground,
+              letterSpacing: -0.5,
+            ),
+            textAlign: TextAlign.center,
+          )
+              .animate()
+              .fadeIn(delay: 150.ms, duration: 400.ms)
               .moveY(begin: 10, end: 0, duration: 400.ms),
-          const SizedBox(height: OiselySpacing.md),
+          const SizedBox(height: 12),
+
+          // Subtitle with email
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: OiselyTypography.bodyMedium.copyWith(
+              style: GoogleFonts.inter(
+                fontSize: 15,
                 color: OiselyColors.onSurfaceVariant,
+                height: 1.5,
               ),
               children: [
-                const TextSpan(text: 'We sent a 6-digit code to '),
+                const TextSpan(text: 'We sent a verification code to\n'),
                 TextSpan(
                   text: email,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w600,
                     color: OiselyColors.primary,
                   ),
                 ),
               ],
             ),
-          ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-          const SizedBox(height: OiselySpacing.xxl),
+          )
+              .animate()
+              .fadeIn(delay: 250.ms, duration: 400.ms),
+          const SizedBox(height: 36),
 
           // Error Message
           if (errorMessage != null)
             Container(
-                  padding: const EdgeInsets.all(OiselySpacing.md),
-                  margin: const EdgeInsets.only(bottom: OiselySpacing.lg),
-                  decoration: BoxDecoration(
-                    color: OiselyColors.error.withAlpha(25),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: OiselyColors.error.withAlpha(75)),
+              padding: const EdgeInsets.all(14),
+              margin: const EdgeInsets.only(bottom: 24),
+              decoration: BoxDecoration(
+                color: OiselyColors.error.withAlpha(12),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: OiselyColors.error.withAlpha(40)),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.error_outline_rounded,
+                    color: OiselyColors.error,
+                    size: 20,
                   ),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.error_outline,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      errorMessage!,
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
                         color: OiselyColors.error,
-                        size: 20,
+                        fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(width: OiselySpacing.sm),
-                      Expanded(
-                        child: Text(
-                          errorMessage!,
-                          style: OiselyTypography.bodySmall.copyWith(
-                            color: OiselyColors.error,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                )
+                ],
+              ),
+            )
                 .animate()
                 .fadeIn(duration: 300.ms)
                 .shakeX(hz: 3, amount: 4, duration: 400.ms),
 
-          // Pinput
+          // PIN Input
           Center(
-                child: Pinput(
-                  controller: otpController,
-                  length: 6,
-                  defaultPinTheme: defaultPinTheme,
-                  focusedPinTheme: defaultPinTheme.copyWith(
-                    decoration: defaultPinTheme.decoration!.copyWith(
-                      border: Border.all(color: OiselyColors.primary, width: 2),
-                      boxShadow: OiselyShapes.primaryShadow(
-                        OiselyColors.primary.withAlpha(75),
-                      ),
+            child: Pinput(
+              controller: otpController,
+              length: 6,
+              defaultPinTheme: defaultPinTheme,
+              focusedPinTheme: defaultPinTheme.copyWith(
+                decoration: defaultPinTheme.decoration!.copyWith(
+                  border: Border.all(color: OiselyColors.primary, width: 2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: OiselyColors.primary.withAlpha(30),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
                     ),
-                  ),
-                  submittedPinTheme: defaultPinTheme.copyWith(
-                    decoration: defaultPinTheme.decoration!.copyWith(
-                      color: OiselyColors.primary.withAlpha(25),
-                      border: Border.all(color: OiselyColors.primary),
-                    ),
-                  ),
-                  errorPinTheme: defaultPinTheme.copyWith(
-                    decoration: defaultPinTheme.decoration!.copyWith(
-                      border: Border.all(color: OiselyColors.error),
-                    ),
-                  ),
-                  hapticFeedbackType: HapticFeedbackType.lightImpact,
-                  onCompleted: onVerify,
-                  cursor: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 22,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          color: OiselyColors.primary,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
-              )
+              ),
+              submittedPinTheme: defaultPinTheme.copyWith(
+                decoration: defaultPinTheme.decoration!.copyWith(
+                  color: OiselyColors.primary.withAlpha(15),
+                  border: Border.all(color: OiselyColors.primary),
+                ),
+              ),
+              errorPinTheme: defaultPinTheme.copyWith(
+                decoration: defaultPinTheme.decoration!.copyWith(
+                  border: Border.all(color: OiselyColors.error, width: 2),
+                ),
+              ),
+              hapticFeedbackType: HapticFeedbackType.lightImpact,
+              onCompleted: onVerify,
+              cursor: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    width: 20,
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: OiselyColors.primary,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
               .animate()
-              .fadeIn(delay: 400.ms, duration: 400.ms)
-              .moveY(begin: 20, end: 0, duration: 400.ms),
-          const SizedBox(height: OiselySpacing.xl),
+              .fadeIn(delay: 350.ms, duration: 400.ms)
+              .moveY(begin: 15, end: 0, duration: 400.ms),
+          const SizedBox(height: 32),
 
           // Verify Button
-          _AnimatedSubmitButton(
-                isLoading: isLoading,
-                onPressed: () => onVerify(otpController.text),
-                label: 'Verify & Sign In',
-              )
+          _ModernSubmitButton(
+            isLoading: isLoading,
+            onPressed: () => onVerify(otpController.text),
+            label: 'Verify & Continue',
+            icon: Icons.check_rounded,
+          )
               .animate()
-              .fadeIn(delay: 500.ms, duration: 300.ms)
-              .moveY(begin: 10, end: 0, duration: 300.ms),
-          const SizedBox(height: OiselySpacing.lg),
+              .fadeIn(delay: 450.ms, duration: 400.ms)
+              .moveY(begin: 15, end: 0, duration: 400.ms),
+          const SizedBox(height: 28),
 
-          // Retry / Back
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Didn't receive the code? ",
-                style: OiselyTypography.bodySmall.copyWith(
+          // Retry section
+          Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              decoration: BoxDecoration(
+                color: OiselyColors.surfaceVariant.withAlpha(50),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Didn't get the code?",
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      color: OiselyColors.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: onRetry,
+                    child: Text(
+                      'Resend',
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: OiselyColors.primary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+              .animate()
+              .fadeIn(delay: 550.ms, duration: 400.ms),
+          const SizedBox(height: 20),
+
+          // Back button
+          Center(
+            child: TextButton.icon(
+              onPressed: onRetry,
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                size: 18,
+                color: OiselyColors.onSurfaceVariant,
+              ),
+              label: Text(
+                'Use a different email',
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                   color: OiselyColors.onSurfaceVariant,
                 ),
               ),
-              GestureDetector(
-                onTap: onRetry,
-                child: Text(
-                  'Try again',
-                  style: OiselyTypography.bodySmall.copyWith(
-                    color: OiselyColors.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
-            ],
-          ).animate().fadeIn(delay: 600.ms, duration: 300.ms),
-          const SizedBox(height: OiselySpacing.md),
-          TextButton.icon(
-            onPressed: onRetry,
-            icon: const Icon(Icons.arrow_back_rounded, size: 18),
-            label: const Text('Use a different email'),
-            style: TextButton.styleFrom(
-              foregroundColor: OiselyColors.onSurfaceVariant,
             ),
-          ).animate().fadeIn(delay: 700.ms, duration: 300.ms),
+          )
+              .animate()
+              .fadeIn(delay: 650.ms, duration: 400.ms),
         ],
       ),
     );

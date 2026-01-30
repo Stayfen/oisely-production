@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import '../main.dart';
@@ -24,6 +25,19 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _isEmailSent = false;
   bool _isLoading = false;
   String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    // Set status bar style for better visibility on dark hero section
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -132,22 +146,31 @@ class _SignInScreenState extends State<SignInScreen> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           // Check for desktop/tablet landscape
-          if (constraints.maxWidth > 800) {
+          if (constraints.maxWidth > 900) {
             return Row(
               children: [
-                // Left Side: Hero
-                const Expanded(
-                  flex: 5,
-                  child: AuthHeroSection(),
-                ),
-                // Right Side: Form
+                // Left Side: Hero - takes up more space
                 Expanded(
-                  flex: 4,
+                  flex: 6,
+                  child: const AuthHeroSection(),
+                ),
+                // Right Side: Form with subtle shadow
+                Expanded(
+                  flex: 5,
                   child: Container(
-                    color: OiselyColors.background,
+                    decoration: BoxDecoration(
+                      color: OiselyColors.background,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(15),
+                          blurRadius: 30,
+                          offset: const Offset(-10, 0),
+                        ),
+                      ],
+                    ),
                     child: Center(
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 480),
+                        constraints: const BoxConstraints(maxWidth: 440),
                         child: _buildFormContent(),
                       ),
                     ),
@@ -156,17 +179,47 @@ class _SignInScreenState extends State<SignInScreen> {
               ],
             );
           } else {
-            // Mobile: Stacked
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  const AuthHeroSection(),
-                  Container(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight - 300, // Approximate hero height
+            // Mobile: Full screen with scrollable content
+            return Container(
+              color: OiselyColors.background,
+              child: CustomScrollView(
+                slivers: [
+                  // Hero section with dynamic height
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: constraints.maxHeight * 0.42,
+                      child: const AuthHeroSection(),
                     ),
-                    color: OiselyColors.background,
-                    child: _buildFormContent(),
+                  ),
+                  // Form section
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: OiselyColors.background,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(28),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(10),
+                            blurRadius: 20,
+                            offset: const Offset(0, -5),
+                          ),
+                        ],
+                      ),
+                      // Overlap the hero section slightly
+                      transform: Matrix4.translationValues(0, -20, 0),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(28),
+                        ),
+                        child: Container(
+                          color: OiselyColors.background,
+                          child: _buildFormContent(),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
