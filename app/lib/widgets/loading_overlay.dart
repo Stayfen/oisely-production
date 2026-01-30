@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../design_system/core/oisely_colors.dart';
 import '../design_system/core/oisely_shapes.dart';
 
@@ -46,7 +47,7 @@ class LoadingOverlay extends StatelessWidget {
                       // Message with typing animation
                       Text(
                             message,
-                            style: const TextStyle(
+                            style: GoogleFonts.inter(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                               color: OiselyColors.onSurface,
@@ -59,7 +60,7 @@ class LoadingOverlay extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           subtitle!,
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 14,
                             color: OiselyColors.onSurfaceVariant,
                           ),

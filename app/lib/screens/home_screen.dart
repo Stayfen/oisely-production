@@ -276,14 +276,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           physics: const BouncingScrollPhysics(),
                           itemCount: interestingAnimals.length,
                           itemBuilder: (context, index) {
+                            final animal = interestingAnimals[index];
                             return _AnimatedAnimalCard(
-                              animal: interestingAnimals[index],
+                              animal: animal,
                               index: index,
                               cardColor: OiselyColors.getCardColor(index),
-                              onTap: () => _navigateToDetail(
-                                context,
-                                interestingAnimals[index],
-                              ),
+                              onTap: () => _navigateToDetail(context, animal),
+                              onDelete: () {
+                                adoptionProvider.removeAnimal(animal.id);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      '${animal.displayName} removed',
+                                    ),
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    action: SnackBarAction(
+                                      label: 'Undo',
+                                      onPressed: () {
+                                        adoptionProvider.addAnimal(animal);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),
@@ -307,15 +325,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           physics: const BouncingScrollPhysics(),
                           itemCount: adoptedAnimals.length,
                           itemBuilder: (context, index) {
+                            final animal = adoptedAnimals[index];
                             return _AnimatedAnimalCard(
-                              animal: adoptedAnimals[index],
+                              animal: animal,
                               index: index,
                               cardColor: OiselyColors.getCardColor(index + 3),
-                              onTap: () => _navigateToDetail(
-                                context,
-                                adoptedAnimals[index],
-                              ),
+                              onTap: () => _navigateToDetail(context, animal),
                               showAdoptedBadge: true,
+                              onDelete: () {
+                                adoptionProvider.removeAnimal(animal.id);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      '${animal.displayName} removed',
+                                    ),
+                                    behavior: SnackBarBehavior.floating,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    action: SnackBarAction(
+                                      label: 'Undo',
+                                      onPressed: () {
+                                        adoptionProvider.addAnimal(animal);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),
@@ -420,72 +456,73 @@ class _NearbyServicesCard extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  OiselyColors.secondary.withAlpha(20),
-                  OiselyColors.secondary.withAlpha(40),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
-              border: Border.all(
-                color: OiselyColors.secondary.withAlpha(60),
-                width: 1.5,
-              ),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: OiselyColors.secondary.withAlpha(40),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    Icons.location_on_rounded,
-                    color: OiselyColors.secondary,
-                    size: 28,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Find Nearby Pet Services',
-                        style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: OiselyColors.onSurface,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Vets, pet stores & more near you',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: OiselyColors.onSurfaceVariant,
-                        ),
-                      ),
+      child:
+          Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      OiselyColors.secondary.withAlpha(20),
+                      OiselyColors.secondary.withAlpha(40),
                     ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
+                  border: Border.all(
+                    color: OiselyColors.secondary.withAlpha(60),
+                    width: 1.5,
                   ),
                 ),
-                Icon(
-                  Icons.chevron_right_rounded,
-                  color: OiselyColors.secondary,
-                  size: 24,
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: OiselyColors.secondary.withAlpha(40),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.location_on_rounded,
+                        color: OiselyColors.secondary,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Find Nearby Pet Services',
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: OiselyColors.onSurface,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Vets, pet stores & more near you',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: OiselyColors.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      color: OiselyColors.secondary,
+                      size: 24,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )
-          .animate()
-          .fadeIn(duration: 400.ms)
-          .slideX(begin: 0.05, end: 0, duration: 400.ms),
+              )
+              .animate()
+              .fadeIn(duration: 400.ms)
+              .slideX(begin: 0.05, end: 0, duration: 400.ms),
     );
   }
 }
@@ -796,13 +833,14 @@ class _AnimatedUserAvatar extends StatelessWidget {
   }
 }
 
-/// Animated animal card with hover effects
-class _AnimatedAnimalCard extends StatelessWidget {
+/// Animated animal card with hover effects and Pinterest-style overlay
+class _AnimatedAnimalCard extends StatefulWidget {
   final Animal animal;
   final int index;
   final Color cardColor;
   final VoidCallback onTap;
   final bool showAdoptedBadge;
+  final VoidCallback? onDelete;
 
   const _AnimatedAnimalCard({
     required this.animal,
@@ -810,124 +848,281 @@ class _AnimatedAnimalCard extends StatelessWidget {
     required this.cardColor,
     required this.onTap,
     this.showAdoptedBadge = false,
+    this.onDelete,
   });
 
   @override
+  State<_AnimatedAnimalCard> createState() => _AnimatedAnimalCardState();
+}
+
+class _AnimatedAnimalCardState extends State<_AnimatedAnimalCard>
+    with SingleTickerProviderStateMixin {
+  bool _isHovered = false;
+  bool _showOptions = false;
+  late AnimationController _optionsController;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _optionsController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _optionsController, curve: Curves.easeOutBack),
+    );
+    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _optionsController, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _optionsController.dispose();
+    super.dispose();
+  }
+
+  void _showOptionsOverlay() {
+    setState(() => _showOptions = true);
+    _optionsController.forward();
+  }
+
+  void _hideOptionsOverlay() {
+    _optionsController.reverse().then((_) {
+      if (mounted) setState(() => _showOptions = false);
+    });
+  }
+
+  void _handleDelete() {
+    _hideOptionsOverlay();
+    // Show confirmation dialog
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: OiselyColors.error.withAlpha(30),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                Icons.delete_outline,
+                color: OiselyColors.error,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text('Remove Pet'),
+          ],
+        ),
+        content: Text(
+          'Are you sure you want to remove "${widget.animal.displayName}" from your collection?',
+          style: GoogleFonts.inter(fontSize: 15, height: 1.5),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.inter(
+                color: OiselyColors.onSurfaceVariant,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              widget.onDelete?.call();
+            },
+            style: FilledButton.styleFrom(
+              backgroundColor: OiselyColors.error,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Text(
+              'Remove',
+              style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child:
-          Container(
-                width: 155,
-                margin: const EdgeInsets.only(right: 16),
-                decoration: BoxDecoration(
-                  color: OiselyColors.surface,
-                  borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
-                  boxShadow: OiselyShapes.mediumShadow,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      // Image
-                      Hero(
-                        tag: 'animal_image_${animal.id}',
-                        child: animal.localImagePath != null
-                            ? Image.file(
-                                File(animal.localImagePath!),
-                                fit: BoxFit.cover,
-                              )
-                            : Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      cardColor,
-                                      cardColor.withAlpha(200),
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                ),
-                                child: Icon(
-                                  Icons.pets,
-                                  size: 56,
-                                  color: OiselyColors.primary.withAlpha(100),
+    return MouseRegion(
+          onEnter: (_) => setState(() => _isHovered = true),
+          onExit: (_) {
+            setState(() => _isHovered = false);
+            if (_showOptions) _hideOptionsOverlay();
+          },
+          child: GestureDetector(
+            onTap: _showOptions ? _hideOptionsOverlay : widget.onTap,
+            onLongPress: _showOptionsOverlay,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOutCubic,
+              width: 155,
+              margin: const EdgeInsets.only(right: 16),
+              transform: Matrix4.identity()
+                ..translate(0.0, _isHovered ? -4.0 : 0.0),
+              decoration: BoxDecoration(
+                color: OiselyColors.surface,
+                borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
+                boxShadow: _isHovered
+                    ? [
+                        BoxShadow(
+                          color: OiselyColors.primary.withAlpha(40),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                        ),
+                      ]
+                    : OiselyShapes.mediumShadow,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Image
+                    Hero(
+                      tag: 'animal_image_${widget.animal.id}',
+                      child: widget.animal.localImagePath != null
+                          ? Image.file(
+                              File(widget.animal.localImagePath!),
+                              fit: BoxFit.cover,
+                            )
+                          : Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    widget.cardColor,
+                                    widget.cardColor.withAlpha(200),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
                                 ),
                               ),
+                              child: Icon(
+                                Icons.pets,
+                                size: 56,
+                                color: OiselyColors.primary.withAlpha(100),
+                              ),
+                            ),
+                    ),
+                    // Gradient overlay
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.transparent,
+                            Colors.black.withAlpha(180),
+                          ],
+                          stops: const [0.0, 0.4, 1.0],
+                        ),
                       ),
-                      // Gradient overlay
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              Colors.transparent,
-                              Colors.black.withAlpha(180),
-                            ],
-                            stops: const [0.0, 0.4, 1.0],
+                    ),
+                    // Pinterest-style options overlay
+                    if (_showOptions || _isHovered)
+                      AnimatedBuilder(
+                        animation: _optionsController,
+                        builder: (context, child) => Opacity(
+                          opacity: _showOptions
+                              ? _opacityAnimation.value
+                              : (_isHovered ? 0.7 : 0.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.black.withAlpha(
+                                    _showOptions ? 150 : 80,
+                                  ),
+                                  Colors.black.withAlpha(
+                                    _showOptions ? 100 : 40,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            child: _showOptions
+                                ? Transform.scale(
+                                    scale: _scaleAnimation.value,
+                                    child: _buildOptionsOverlay(),
+                                  )
+                                : _buildHoverHint(),
                           ),
                         ),
                       ),
-                      // Adopted badge
-                      if (showAdoptedBadge)
-                        Positioned(
-                          top: 10,
-                          right: 10,
-                          child:
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 5,
-                                ),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      OiselyColors.success,
-                                      OiselyColors.success.withAlpha(200),
-                                    ],
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: OiselyColors.success.withAlpha(80),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.favorite,
-                                      size: 12,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      'Adopted',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ).animate().scale(
-                                begin: const Offset(0, 0),
-                                end: const Offset(1, 1),
-                                duration: 400.ms,
-                                curve: Curves.elasticOut,
-                                delay: Duration(
-                                  milliseconds: 300 + (index * 50),
-                                ),
+                    // Adopted badge
+                    if (widget.showAdoptedBadge && !_showOptions)
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child:
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 5,
                               ),
-                        ),
-                      // Name at bottom
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    OiselyColors.success,
+                                    OiselyColors.success.withAlpha(200),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: OiselyColors.success.withAlpha(80),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.favorite,
+                                    size: 12,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    'Adopted',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ).animate().scale(
+                              begin: const Offset(0, 0),
+                              end: const Offset(1, 1),
+                              duration: 400.ms,
+                              curve: Curves.elasticOut,
+                              delay: Duration(
+                                milliseconds: 300 + (widget.index * 50),
+                              ),
+                            ),
+                      ),
+                    // Name at bottom
+                    if (!_showOptions)
                       Positioned(
                         left: 14,
                         right: 14,
@@ -936,7 +1131,7 @@ class _AnimatedAnimalCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              animal.displayName,
+                              widget.animal.displayName,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.inter(
@@ -945,10 +1140,10 @@ class _AnimatedAnimalCard extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            if (animal.breed != null) ...[
+                            if (widget.animal.breed != null) ...[
                               const SizedBox(height: 2),
                               Text(
-                                animal.breed!,
+                                widget.animal.breed!,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -960,22 +1155,142 @@ class _AnimatedAnimalCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                  ],
                 ),
-              )
-              .animate()
-              .fadeIn(
-                delay: Duration(milliseconds: 100 * index),
-                duration: 400.ms,
-              )
-              .moveX(
-                begin: 30,
-                end: 0,
-                delay: Duration(milliseconds: 100 * index),
-                duration: 400.ms,
-                curve: Curves.easeOutCubic,
               ),
+            ),
+          ),
+        )
+        .animate()
+        .fadeIn(
+          delay: Duration(milliseconds: 100 * widget.index),
+          duration: 400.ms,
+        )
+        .moveX(
+          begin: 30,
+          end: 0,
+          delay: Duration(milliseconds: 100 * widget.index),
+          duration: 400.ms,
+          curve: Curves.easeOutCubic,
+        );
+  }
+
+  Widget _buildHoverHint() {
+    return Align(
+      alignment: Alignment.topRight,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withAlpha(230),
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(30),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Icon(
+            Icons.more_horiz,
+            size: 18,
+            color: OiselyColors.onSurface,
+          ),
+        ),
+      ),
+    ).animate().fadeIn(duration: 150.ms);
+  }
+
+  Widget _buildOptionsOverlay() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // Delete button
+        _OptionButton(
+          icon: Icons.delete_outline,
+          label: 'Remove',
+          color: OiselyColors.error,
+          onTap: _handleDelete,
+        ),
+        const SizedBox(height: 12),
+        // View button
+        _OptionButton(
+          icon: Icons.visibility_outlined,
+          label: 'View',
+          color: OiselyColors.primary,
+          onTap: () {
+            _hideOptionsOverlay();
+            widget.onTap();
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _OptionButton extends StatefulWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _OptionButton({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  State<_OptionButton> createState() => _OptionButtonState();
+}
+
+class _OptionButtonState extends State<_OptionButton> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
+      onTap: widget.onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 100),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: _isPressed ? widget.color : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: widget.color.withAlpha(50),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              widget.icon,
+              size: 18,
+              color: _isPressed ? Colors.white : widget.color,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              widget.label,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: _isPressed ? Colors.white : widget.color,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -985,95 +1300,96 @@ class _AnimatedEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-            padding: const EdgeInsets.all(40),
-            margin: const EdgeInsets.symmetric(vertical: 20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  OiselyColors.primaryContainer.withAlpha(100),
-                  OiselyColors.cardGreen.withAlpha(100),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
-              border: Border.all(
-                color: OiselyColors.primary.withAlpha(50),
-                width: 1.5,
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: OiselyColors.primaryContainer,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.camera_alt_outlined,
-                        size: 48,
-                      color: OiselyColors.primary,
-                    ),
-                  )
-                  .animate(onPlay: (c) => c.repeat())
-                  .moveY(
-                    begin: 0,
-                    end: -10,
-                    duration: 1500.ms,
-                    curve: Curves.easeInOut,
-                  )
-                  .then()
-                  .moveY(
-                    begin: -10,
-                    end: 0,
-                    duration: 1500.ms,
-                    curve: Curves.easeInOut,
+      child:
+          Container(
+                padding: const EdgeInsets.all(40),
+                margin: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      OiselyColors.primaryContainer.withAlpha(100),
+                      OiselyColors.cardGreen.withAlpha(100),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-              const SizedBox(height: 24),
-              Text(
-                'Your Zoo Awaits! 🦁',
-                style: GoogleFonts.inter(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: OiselyColors.onSurface,
+                  borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
+                  border: Border.all(
+                    color: OiselyColors.primary.withAlpha(50),
+                    width: 1.5,
+                  ),
                 ),
-              ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
-              const SizedBox(height: 10),
-              Text(
-                'Tap the + button below to identify\nyour first animal friend!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: OiselyColors.onSurfaceVariant,
-                  fontSize: 15,
-                  height: 1.5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: OiselyColors.primaryContainer,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                            size: 48,
+                            color: OiselyColors.primary,
+                          ),
+                        )
+                        .animate(onPlay: (c) => c.repeat())
+                        .moveY(
+                          begin: 0,
+                          end: -10,
+                          duration: 1500.ms,
+                          curve: Curves.easeInOut,
+                        )
+                        .then()
+                        .moveY(
+                          begin: -10,
+                          end: 0,
+                          duration: 1500.ms,
+                          curve: Curves.easeInOut,
+                        ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'Your Zoo Awaits! 🦁',
+                      style: GoogleFonts.inter(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: OiselyColors.onSurface,
+                      ),
+                    ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Tap the + button below to identify\nyour first animal friend!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: OiselyColors.onSurfaceVariant,
+                        fontSize: 15,
+                        height: 1.5,
+                      ),
+                    ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
+                    const SizedBox(height: 24),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        _FeatureChip(icon: Icons.camera_alt, label: 'Snap'),
+                        _FeatureChip(icon: Icons.psychology, label: 'Analyze'),
+                        _FeatureChip(icon: Icons.favorite, label: 'Adopt'),
+                      ],
+                    ).animate().fadeIn(delay: 400.ms, duration: 400.ms),
+                  ],
                 ),
-              ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-              const SizedBox(height: 24),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  _FeatureChip(icon: Icons.camera_alt, label: 'Snap'),
-                  _FeatureChip(icon: Icons.psychology, label: 'Analyze'),
-                  _FeatureChip(icon: Icons.favorite, label: 'Adopt'),
-                ],
-              ).animate().fadeIn(delay: 400.ms, duration: 400.ms),
-            ],
-          ),
-        )
-        .animate()
-        .fadeIn(duration: 500.ms)
-        .scale(
-          begin: const Offset(0.95, 0.95),
-          end: const Offset(1, 1),
-          duration: 500.ms,
-        ),
+              )
+              .animate()
+              .fadeIn(duration: 500.ms)
+              .scale(
+                begin: const Offset(0.95, 0.95),
+                end: const Offset(1, 1),
+                duration: 500.ms,
+              ),
     );
   }
 }
