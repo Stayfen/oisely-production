@@ -9,7 +9,7 @@ class LoadingOverlay extends StatelessWidget {
   final String message;
   final bool isVisible;
   final String? subtitle;
-
+       
   const LoadingOverlay({
     super.key,
     this.message = 'Processing Image',
