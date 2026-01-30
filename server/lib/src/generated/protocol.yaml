@@ -20,5 +20,8 @@ carePlan:
 magicLink:
   - sendMagicLink:
   - verifyMagicLink:
+nearbyServices:
+  - searchNearbyServices:
+  - getPlacePhotoUrl:
 greeting:
   - hello:

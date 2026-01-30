@@ -22,13 +22,15 @@ import 'care_plan_response.dart' as _i9;
 import 'care_plan_task.dart' as _i10;
 import 'greetings/greeting.dart' as _i11;
 import 'magic_link_token.dart' as _i12;
-import 'rate_limit_counter.dart' as _i13;
-import 'package:oisely_client/src/protocol/animal_care_plan.dart' as _i14;
+import 'nearby_place.dart' as _i13;
+import 'nearby_places_response.dart' as _i14;
+import 'rate_limit_counter.dart' as _i15;
+import 'package:oisely_client/src/protocol/animal_care_plan.dart' as _i16;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
-    as _i15;
+    as _i17;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i16;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i17;
+    as _i18;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i19;
 export 'adoption_info.dart';
 export 'animal_care_plan.dart';
 export 'animal_identification_record.dart';
@@ -40,6 +42,8 @@ export 'care_plan_response.dart';
 export 'care_plan_task.dart';
 export 'greetings/greeting.dart';
 export 'magic_link_token.dart';
+export 'nearby_place.dart';
+export 'nearby_places_response.dart';
 export 'rate_limit_counter.dart';
 export 'client.dart';
 
@@ -110,8 +114,14 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i12.MagicLinkToken) {
       return _i12.MagicLinkToken.fromJson(data) as T;
     }
-    if (t == _i13.RateLimitCounter) {
-      return _i13.RateLimitCounter.fromJson(data) as T;
+    if (t == _i13.NearbyPlace) {
+      return _i13.NearbyPlace.fromJson(data) as T;
+    }
+    if (t == _i14.NearbyPlacesResponse) {
+      return _i14.NearbyPlacesResponse.fromJson(data) as T;
+    }
+    if (t == _i15.RateLimitCounter) {
+      return _i15.RateLimitCounter.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.AdoptionInfo?>()) {
       return (data != null ? _i2.AdoptionInfo.fromJson(data) : null) as T;
@@ -154,8 +164,15 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i12.MagicLinkToken?>()) {
       return (data != null ? _i12.MagicLinkToken.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i13.RateLimitCounter?>()) {
-      return (data != null ? _i13.RateLimitCounter.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i13.NearbyPlace?>()) {
+      return (data != null ? _i13.NearbyPlace.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i14.NearbyPlacesResponse?>()) {
+      return (data != null ? _i14.NearbyPlacesResponse.fromJson(data) : null)
+          as T;
+    }
+    if (t == _i1.getType<_i15.RateLimitCounter?>()) {
+      return (data != null ? _i15.RateLimitCounter.fromJson(data) : null) as T;
     }
     if (t == List<_i10.CarePlanTask>) {
       return (data as List)
@@ -186,20 +203,26 @@ class Protocol extends _i1.SerializationManager {
               .toList()
           as T;
     }
-    if (t == List<_i14.AnimalCarePlan>) {
+    if (t == List<_i13.NearbyPlace>) {
       return (data as List)
-              .map((e) => deserialize<_i14.AnimalCarePlan>(e))
+              .map((e) => deserialize<_i13.NearbyPlace>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i16.AnimalCarePlan>) {
+      return (data as List)
+              .map((e) => deserialize<_i16.AnimalCarePlan>(e))
               .toList()
           as T;
     }
     try {
-      return _i15.Protocol().deserialize<T>(data, t);
-    } on _i1.DeserializationTypeNotFoundException catch (_) {}
-    try {
-      return _i16.Protocol().deserialize<T>(data, t);
-    } on _i1.DeserializationTypeNotFoundException catch (_) {}
-    try {
       return _i17.Protocol().deserialize<T>(data, t);
+    } on _i1.DeserializationTypeNotFoundException catch (_) {}
+    try {
+      return _i18.Protocol().deserialize<T>(data, t);
+    } on _i1.DeserializationTypeNotFoundException catch (_) {}
+    try {
+      return _i19.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -217,7 +240,9 @@ class Protocol extends _i1.SerializationManager {
       _i10.CarePlanTask => 'CarePlanTask',
       _i11.Greeting => 'Greeting',
       _i12.MagicLinkToken => 'MagicLinkToken',
-      _i13.RateLimitCounter => 'RateLimitCounter',
+      _i13.NearbyPlace => 'NearbyPlace',
+      _i14.NearbyPlacesResponse => 'NearbyPlacesResponse',
+      _i15.RateLimitCounter => 'RateLimitCounter',
       _ => null,
     };
   }
@@ -254,18 +279,22 @@ class Protocol extends _i1.SerializationManager {
         return 'Greeting';
       case _i12.MagicLinkToken():
         return 'MagicLinkToken';
-      case _i13.RateLimitCounter():
+      case _i13.NearbyPlace():
+        return 'NearbyPlace';
+      case _i14.NearbyPlacesResponse():
+        return 'NearbyPlacesResponse';
+      case _i15.RateLimitCounter():
         return 'RateLimitCounter';
     }
-    className = _i15.Protocol().getClassNameForObject(data);
+    className = _i17.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_core.$className';
     }
-    className = _i16.Protocol().getClassNameForObject(data);
+    className = _i18.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_idp.$className';
     }
-    className = _i17.Protocol().getClassNameForObject(data);
+    className = _i19.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -311,20 +340,26 @@ class Protocol extends _i1.SerializationManager {
     if (dataClassName == 'MagicLinkToken') {
       return deserialize<_i12.MagicLinkToken>(data['data']);
     }
+    if (dataClassName == 'NearbyPlace') {
+      return deserialize<_i13.NearbyPlace>(data['data']);
+    }
+    if (dataClassName == 'NearbyPlacesResponse') {
+      return deserialize<_i14.NearbyPlacesResponse>(data['data']);
+    }
     if (dataClassName == 'RateLimitCounter') {
-      return deserialize<_i13.RateLimitCounter>(data['data']);
+      return deserialize<_i15.RateLimitCounter>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_core.')) {
       data['className'] = dataClassName.substring(20);
-      return _i15.Protocol().deserializeByClassName(data);
+      return _i17.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       data['className'] = dataClassName.substring(19);
-      return _i16.Protocol().deserializeByClassName(data);
+      return _i18.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('serverpod_auth.')) {
       data['className'] = dataClassName.substring(15);
-      return _i17.Protocol().deserializeByClassName(data);
+      return _i19.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }
@@ -339,13 +374,13 @@ class Protocol extends _i1.SerializationManager {
       return null;
     }
     try {
-      return _i15.Protocol().mapRecordToJson(record);
-    } catch (_) {}
-    try {
-      return _i16.Protocol().mapRecordToJson(record);
-    } catch (_) {}
-    try {
       return _i17.Protocol().mapRecordToJson(record);
+    } catch (_) {}
+    try {
+      return _i18.Protocol().mapRecordToJson(record);
+    } catch (_) {}
+    try {
+      return _i19.Protocol().mapRecordToJson(record);
     } catch (_) {}
     throw Exception('Unsupported record type ${record.runtimeType}');
   }

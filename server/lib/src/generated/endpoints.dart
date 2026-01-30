@@ -17,12 +17,13 @@ import '../endpoints/animal_identification_endpoint.dart' as _i4;
 import '../endpoints/behavior_analysis_endpoint.dart' as _i5;
 import '../endpoints/care_plan_endpoint.dart' as _i6;
 import '../endpoints/magic_link_endpoint.dart' as _i7;
-import '../greetings/greeting_endpoint.dart' as _i8;
+import '../endpoints/nearby_services_endpoint.dart' as _i8;
+import '../greetings/greeting_endpoint.dart' as _i9;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
-    as _i9;
-import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _i10;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i11;
+import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
+    as _i11;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i12;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -64,7 +65,13 @@ class Endpoints extends _i1.EndpointDispatch {
           'magicLink',
           null,
         ),
-      'greeting': _i8.GreetingEndpoint()
+      'nearbyServices': _i8.NearbyServicesEndpoint()
+        ..initialize(
+          server,
+          'nearbyServices',
+          null,
+        ),
+      'greeting': _i9.GreetingEndpoint()
         ..initialize(
           server,
           'greeting',
@@ -459,6 +466,82 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['nearbyServices'] = _i1.EndpointConnector(
+      name: 'nearbyServices',
+      endpoint: endpoints['nearbyServices']!,
+      methodConnectors: {
+        'searchNearbyServices': _i1.MethodConnector(
+          name: 'searchNearbyServices',
+          params: {
+            'latitude': _i1.ParameterDescription(
+              name: 'latitude',
+              type: _i1.getType<double>(),
+              nullable: false,
+            ),
+            'longitude': _i1.ParameterDescription(
+              name: 'longitude',
+              type: _i1.getType<double>(),
+              nullable: false,
+            ),
+            'radius': _i1.ParameterDescription(
+              name: 'radius',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'types': _i1.ParameterDescription(
+              name: 'types',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'pageToken': _i1.ParameterDescription(
+              name: 'pageToken',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['nearbyServices'] as _i8.NearbyServicesEndpoint)
+                      .searchNearbyServices(
+                        session,
+                        params['latitude'],
+                        params['longitude'],
+                        radius: params['radius'],
+                        types: params['types'],
+                        pageToken: params['pageToken'],
+                      ),
+        ),
+        'getPlacePhotoUrl': _i1.MethodConnector(
+          name: 'getPlacePhotoUrl',
+          params: {
+            'photoReference': _i1.ParameterDescription(
+              name: 'photoReference',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'maxWidth': _i1.ParameterDescription(
+              name: 'maxWidth',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['nearbyServices'] as _i8.NearbyServicesEndpoint)
+                      .getPlacePhotoUrl(
+                        session,
+                        params['photoReference'],
+                        maxWidth: params['maxWidth'],
+                      ),
+        ),
+      },
+    );
     connectors['greeting'] = _i1.EndpointConnector(
       name: 'greeting',
       endpoint: endpoints['greeting']!,
@@ -476,17 +559,17 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['greeting'] as _i8.GreetingEndpoint).hello(
+              ) async => (endpoints['greeting'] as _i9.GreetingEndpoint).hello(
                 session,
                 params['name'],
               ),
         ),
       },
     );
-    modules['serverpod_auth_core'] = _i9.Endpoints()
+    modules['serverpod_auth_core'] = _i10.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_idp'] = _i10.Endpoints()
+    modules['serverpod_auth_idp'] = _i11.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth'] = _i11.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i12.Endpoints()..initializeEndpoints(server);
   }
 }

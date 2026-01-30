@@ -55,5 +55,11 @@
 	<string>This app needs access to microphone for video recording features used in behavior analysis.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app needs permission to save photos and videos to your library.</string>
+	
+	<!-- Location Permissions for Nearby Services -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to find nearby pet stores and veterinarians.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to find nearby pet stores and veterinarians.</string>
 </dict>
 </plist>

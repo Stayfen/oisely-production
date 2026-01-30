@@ -23,8 +23,9 @@ import 'package:oisely_client/src/protocol/care_plan_generation_result.dart'
     as _i7;
 import 'package:oisely_client/src/protocol/animal_care_plan.dart' as _i8;
 import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i9;
-import 'package:oisely_client/src/protocol/greetings/greeting.dart' as _i10;
-import 'protocol.dart' as _i11;
+import 'package:oisely_client/src/protocol/nearby_places_response.dart' as _i10;
+import 'package:oisely_client/src/protocol/greetings/greeting.dart' as _i11;
+import 'protocol.dart' as _i12;
 
 /// By extending [EmailIdpBaseEndpoint], the email identity provider endpoints
 /// are made available on the server and enable the corresponding sign-in widget
@@ -349,6 +350,50 @@ class EndpointMagicLink extends _i2.EndpointRef {
   );
 }
 
+/// {@category Endpoint}
+class EndpointNearbyServices extends _i2.EndpointRef {
+  EndpointNearbyServices(_i2.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'nearbyServices';
+
+  /// Search for nearby pet services (veterinarians and pet stores)
+  /// [latitude] and [longitude] are the user's current location
+  /// [radius] is the search radius in meters (default 5000m = 5km)
+  /// [types] can be 'veterinary_care', 'pet_store', or 'both'
+  /// [pageToken] is used for pagination
+  _i3.Future<_i10.NearbyPlacesResponse> searchNearbyServices(
+    double latitude,
+    double longitude, {
+    required int radius,
+    required String types,
+    String? pageToken,
+  }) => caller.callServerEndpoint<_i10.NearbyPlacesResponse>(
+    'nearbyServices',
+    'searchNearbyServices',
+    {
+      'latitude': latitude,
+      'longitude': longitude,
+      'radius': radius,
+      'types': types,
+      'pageToken': pageToken,
+    },
+  );
+
+  /// Get photo URL for a place photo
+  _i3.Future<String> getPlacePhotoUrl(
+    String photoReference, {
+    required int maxWidth,
+  }) => caller.callServerEndpoint<String>(
+    'nearbyServices',
+    'getPlacePhotoUrl',
+    {
+      'photoReference': photoReference,
+      'maxWidth': maxWidth,
+    },
+  );
+}
+
 /// This is an example endpoint that returns a greeting message through
 /// its [hello] method.
 /// {@category Endpoint}
@@ -359,8 +404,8 @@ class EndpointGreeting extends _i2.EndpointRef {
   String get name => 'greeting';
 
   /// Returns a personalized greeting message: "Hello {name}".
-  _i3.Future<_i10.Greeting> hello(String name) =>
-      caller.callServerEndpoint<_i10.Greeting>(
+  _i3.Future<_i11.Greeting> hello(String name) =>
+      caller.callServerEndpoint<_i11.Greeting>(
         'greeting',
         'hello',
         {'name': name},
@@ -401,7 +446,7 @@ class Client extends _i2.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i11.Protocol(),
+         _i12.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -416,6 +461,7 @@ class Client extends _i2.ServerpodClientShared {
     behaviorAnalysis = EndpointBehaviorAnalysis(this);
     carePlan = EndpointCarePlan(this);
     magicLink = EndpointMagicLink(this);
+    nearbyServices = EndpointNearbyServices(this);
     greeting = EndpointGreeting(this);
     modules = Modules(this);
   }
@@ -432,6 +478,8 @@ class Client extends _i2.ServerpodClientShared {
 
   late final EndpointMagicLink magicLink;
 
+  late final EndpointNearbyServices nearbyServices;
+
   late final EndpointGreeting greeting;
 
   late final Modules modules;
@@ -444,6 +492,7 @@ class Client extends _i2.ServerpodClientShared {
     'behaviorAnalysis': behaviorAnalysis,
     'carePlan': carePlan,
     'magicLink': magicLink,
+    'nearbyServices': nearbyServices,
     'greeting': greeting,
   };
 

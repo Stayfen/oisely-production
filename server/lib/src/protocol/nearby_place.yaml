@@ -1,0 +1,13 @@
+class: NearbyPlace
+fields:
+  placeId: String
+  name: String
+  address: String
+  latitude: double
+  longitude: double
+  rating: double?
+  userRatingsTotal: int?
+  isOpen: bool?
+  photoReference: String?
+  types: List<String>
+  distance: double?

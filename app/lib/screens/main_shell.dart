@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
+import '../design_system/core/oisely_colors.dart';
 import '../providers/navigation_provider.dart';
 import '../widgets/image_picker_modal.dart';
 import 'home_screen.dart';
@@ -21,9 +23,12 @@ class MainShell extends StatefulWidget {
   State<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends State<MainShell> {
+class _MainShellState extends State<MainShell> with TickerProviderStateMixin {
   // Page controller for the IndexedStack
   late final List<Widget> _pages;
+  late AnimationController _fabAnimationController;
+  late Animation<double> _fabAnimation;
+  bool _isFabPressed = false;
 
   @override
   void initState() {
@@ -32,13 +37,27 @@ class _MainShellState extends State<MainShell> {
       const HomeScreen(),
       const SettingsScreen(),
     ];
+
+    _fabAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
+    _fabAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
+      CurvedAnimation(parent: _fabAnimationController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _fabAnimationController.dispose();
+    super.dispose();
   }
 
   void _onCenterButtonPressed() {
     ImagePickerModal.show(
       context: context,
       onImageSelected: (file) {
-        // Pass the selected file to the parent for processing
         widget.onImageSelected(file);
       },
     );
@@ -47,72 +66,114 @@ class _MainShellState extends State<MainShell> {
   @override
   Widget build(BuildContext context) {
     final navigationProvider = context.watch<NavigationProvider>();
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      // Use IndexedStack to maintain state of pages
+      backgroundColor: OiselyColors.background,
       body: IndexedStack(
         index: navigationProvider.currentIndex,
         children: _pages,
       ),
-      // Floating action button in the center
-      floatingActionButton: Container(
-        width: 64,
-        height: 64,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              colorScheme.primary,
-              colorScheme.primaryContainer,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.primary.withAlpha(128),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
+      // Animated FAB with gradient and glow
+      floatingActionButton: GestureDetector(
+        onTapDown: (_) {
+          setState(() => _isFabPressed = true);
+          _fabAnimationController.forward();
+        },
+        onTapUp: (_) {
+          setState(() => _isFabPressed = false);
+          _fabAnimationController.reverse();
+          _onCenterButtonPressed();
+        },
+        onTapCancel: () {
+          setState(() => _isFabPressed = false);
+          _fabAnimationController.reverse();
+        },
+        child: AnimatedBuilder(
+          animation: _fabAnimation,
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _fabAnimation.value,
+              child: child,
+            );
+          },
+          child: Container(
+            width: 68,
+            height: 68,
+            decoration: BoxDecoration(
+              gradient: OiselyColors.primaryGradient,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: OiselyColors.primary.withAlpha(
+                    _isFabPressed ? 100 : 150,
+                  ),
+                  blurRadius: _isFabPressed ? 20 : 16,
+                  offset: const Offset(0, 6),
+                  spreadRadius: _isFabPressed ? 2 : 0,
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: _onCenterButtonPressed,
-            customBorder: const CircleBorder(),
-            child: Icon(
-              Icons.add,
-              size: 32,
-              color: colorScheme.onPrimary,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Outer ring animation
+                if (!_isFabPressed)
+                  Container(
+                        width: 68,
+                        height: 68,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: OiselyColors.primaryLight.withAlpha(100),
+                            width: 2,
+                          ),
+                        ),
+                      )
+                      .animate(onPlay: (c) => c.repeat())
+                      .scale(
+                        begin: const Offset(1, 1),
+                        end: const Offset(1.15, 1.15),
+                        duration: 1500.ms,
+                        curve: Curves.easeOut,
+                      )
+                      .fadeOut(duration: 1500.ms),
+                // Icon
+                Icon(
+                  Icons.add_rounded,
+                  size: 32,
+                  color: OiselyColors.onPrimary,
+                ),
+              ],
             ),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // Animated bottom navigation bar
+      // Enhanced animated bottom navigation bar
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: const [
-          Icons.home_outlined,
-          Icons.settings_outlined,
+          Icons.home_rounded,
+          Icons.settings_rounded,
         ],
         activeIndex: navigationProvider.currentIndex,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.softEdge,
-        leftCornerRadius: 24,
-        rightCornerRadius: 24,
-        notchMargin: 8,
+        leftCornerRadius: 28,
+        rightCornerRadius: 28,
+        notchMargin: 10,
         onTap: (index) => navigationProvider.setIndex(index),
-        backgroundColor: colorScheme.surface,
-        activeColor: colorScheme.primary,
-        inactiveColor: colorScheme.onSurfaceVariant,
+        backgroundColor: OiselyColors.surface,
+        activeColor: OiselyColors.primary,
+        inactiveColor: OiselyColors.grey400,
         shadow: BoxShadow(
           offset: const Offset(0, -4),
-          blurRadius: 12,
-          color: Colors.black.withAlpha(25),
+          blurRadius: 20,
+          color: OiselyColors.shadow,
         ),
-        iconSize: 28,
+        iconSize: 26,
+        splashColor: OiselyColors.primaryContainer,
+        splashSpeedInMilliseconds: 300,
+        height: 65,
       ),
     );
   }

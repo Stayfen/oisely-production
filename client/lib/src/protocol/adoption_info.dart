@@ -14,6 +14,7 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
 abstract class AdoptionInfo implements _i1.SerializableModel {
   AdoptionInfo._({
+    required this.id,
     required this.species,
     this.breed,
     required this.adoptionCost,
@@ -28,6 +29,7 @@ abstract class AdoptionInfo implements _i1.SerializableModel {
   });
 
   factory AdoptionInfo({
+    required int id,
     required String species,
     String? breed,
     required String adoptionCost,
@@ -43,6 +45,7 @@ abstract class AdoptionInfo implements _i1.SerializableModel {
 
   factory AdoptionInfo.fromJson(Map<String, dynamic> jsonSerialization) {
     return AdoptionInfo(
+      id: jsonSerialization['id'] as int,
       species: jsonSerialization['species'] as String,
       breed: jsonSerialization['breed'] as String?,
       adoptionCost: jsonSerialization['adoptionCost'] as String,
@@ -56,6 +59,8 @@ abstract class AdoptionInfo implements _i1.SerializableModel {
       confidence: (jsonSerialization['confidence'] as num).toDouble(),
     );
   }
+
+  int id;
 
   String species;
 
@@ -83,6 +88,7 @@ abstract class AdoptionInfo implements _i1.SerializableModel {
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
   AdoptionInfo copyWith({
+    int? id,
     String? species,
     String? breed,
     String? adoptionCost,
@@ -99,6 +105,7 @@ abstract class AdoptionInfo implements _i1.SerializableModel {
   Map<String, dynamic> toJson() {
     return {
       '__className__': 'AdoptionInfo',
+      'id': id,
       'species': species,
       if (breed != null) 'breed': breed,
       'adoptionCost': adoptionCost,
@@ -123,6 +130,7 @@ class _Undefined {}
 
 class _AdoptionInfoImpl extends AdoptionInfo {
   _AdoptionInfoImpl({
+    required int id,
     required String species,
     String? breed,
     required String adoptionCost,
@@ -135,6 +143,7 @@ class _AdoptionInfoImpl extends AdoptionInfo {
     required String legalRequirements,
     required double confidence,
   }) : super._(
+         id: id,
          species: species,
          breed: breed,
          adoptionCost: adoptionCost,
@@ -153,6 +162,7 @@ class _AdoptionInfoImpl extends AdoptionInfo {
   @_i1.useResult
   @override
   AdoptionInfo copyWith({
+    int? id,
     String? species,
     Object? breed = _Undefined,
     String? adoptionCost,
@@ -166,6 +176,7 @@ class _AdoptionInfoImpl extends AdoptionInfo {
     double? confidence,
   }) {
     return AdoptionInfo(
+      id: id ?? this.id,
       species: species ?? this.species,
       breed: breed is String? ? breed : this.breed,
       adoptionCost: adoptionCost ?? this.adoptionCost,

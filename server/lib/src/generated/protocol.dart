@@ -28,8 +28,10 @@ import 'care_plan_response.dart' as _i13;
 import 'care_plan_task.dart' as _i14;
 import 'greetings/greeting.dart' as _i15;
 import 'magic_link_token.dart' as _i16;
-import 'rate_limit_counter.dart' as _i17;
-import 'package:oisely_server/src/generated/animal_care_plan.dart' as _i18;
+import 'nearby_place.dart' as _i17;
+import 'nearby_places_response.dart' as _i18;
+import 'rate_limit_counter.dart' as _i19;
+import 'package:oisely_server/src/generated/animal_care_plan.dart' as _i20;
 export 'adoption_info.dart';
 export 'animal_care_plan.dart';
 export 'animal_identification_record.dart';
@@ -41,6 +43,8 @@ export 'care_plan_response.dart';
 export 'care_plan_task.dart';
 export 'greetings/greeting.dart';
 export 'magic_link_token.dart';
+export 'nearby_place.dart';
+export 'nearby_places_response.dart';
 export 'rate_limit_counter.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -801,8 +805,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i16.MagicLinkToken) {
       return _i16.MagicLinkToken.fromJson(data) as T;
     }
-    if (t == _i17.RateLimitCounter) {
-      return _i17.RateLimitCounter.fromJson(data) as T;
+    if (t == _i17.NearbyPlace) {
+      return _i17.NearbyPlace.fromJson(data) as T;
+    }
+    if (t == _i18.NearbyPlacesResponse) {
+      return _i18.NearbyPlacesResponse.fromJson(data) as T;
+    }
+    if (t == _i19.RateLimitCounter) {
+      return _i19.RateLimitCounter.fromJson(data) as T;
     }
     if (t == _i1.getType<_i6.AdoptionInfo?>()) {
       return (data != null ? _i6.AdoptionInfo.fromJson(data) : null) as T;
@@ -847,8 +857,15 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i16.MagicLinkToken?>()) {
       return (data != null ? _i16.MagicLinkToken.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i17.RateLimitCounter?>()) {
-      return (data != null ? _i17.RateLimitCounter.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i17.NearbyPlace?>()) {
+      return (data != null ? _i17.NearbyPlace.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i18.NearbyPlacesResponse?>()) {
+      return (data != null ? _i18.NearbyPlacesResponse.fromJson(data) : null)
+          as T;
+    }
+    if (t == _i1.getType<_i19.RateLimitCounter?>()) {
+      return (data != null ? _i19.RateLimitCounter.fromJson(data) : null) as T;
     }
     if (t == List<_i14.CarePlanTask>) {
       return (data as List)
@@ -879,9 +896,15 @@ class Protocol extends _i1.SerializationManagerServer {
               .toList()
           as T;
     }
-    if (t == List<_i18.AnimalCarePlan>) {
+    if (t == List<_i17.NearbyPlace>) {
       return (data as List)
-              .map((e) => deserialize<_i18.AnimalCarePlan>(e))
+              .map((e) => deserialize<_i17.NearbyPlace>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i20.AnimalCarePlan>) {
+      return (data as List)
+              .map((e) => deserialize<_i20.AnimalCarePlan>(e))
               .toList()
           as T;
     }
@@ -913,7 +936,9 @@ class Protocol extends _i1.SerializationManagerServer {
       _i14.CarePlanTask => 'CarePlanTask',
       _i15.Greeting => 'Greeting',
       _i16.MagicLinkToken => 'MagicLinkToken',
-      _i17.RateLimitCounter => 'RateLimitCounter',
+      _i17.NearbyPlace => 'NearbyPlace',
+      _i18.NearbyPlacesResponse => 'NearbyPlacesResponse',
+      _i19.RateLimitCounter => 'RateLimitCounter',
       _ => null,
     };
   }
@@ -950,7 +975,11 @@ class Protocol extends _i1.SerializationManagerServer {
         return 'Greeting';
       case _i16.MagicLinkToken():
         return 'MagicLinkToken';
-      case _i17.RateLimitCounter():
+      case _i17.NearbyPlace():
+        return 'NearbyPlace';
+      case _i18.NearbyPlacesResponse():
+        return 'NearbyPlacesResponse';
+      case _i19.RateLimitCounter():
         return 'RateLimitCounter';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -1011,8 +1040,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'MagicLinkToken') {
       return deserialize<_i16.MagicLinkToken>(data['data']);
     }
+    if (dataClassName == 'NearbyPlace') {
+      return deserialize<_i17.NearbyPlace>(data['data']);
+    }
+    if (dataClassName == 'NearbyPlacesResponse') {
+      return deserialize<_i18.NearbyPlacesResponse>(data['data']);
+    }
     if (dataClassName == 'RateLimitCounter') {
-      return deserialize<_i17.RateLimitCounter>(data['data']);
+      return deserialize<_i19.RateLimitCounter>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);

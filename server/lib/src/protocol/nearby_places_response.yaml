@@ -1,0 +1,5 @@
+class: NearbyPlacesResponse
+fields:
+  places: List<NearbyPlace>
+  nextPageToken: String?
+  status: String

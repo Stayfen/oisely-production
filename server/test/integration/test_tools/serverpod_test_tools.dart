@@ -23,7 +23,9 @@ import 'package:oisely_server/src/generated/care_plan_generation_result.dart'
     as _i7;
 import 'package:oisely_server/src/generated/animal_care_plan.dart' as _i8;
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i9;
-import 'package:oisely_server/src/generated/greetings/greeting.dart' as _i10;
+import 'package:oisely_server/src/generated/nearby_places_response.dart'
+    as _i10;
+import 'package:oisely_server/src/generated/greetings/greeting.dart' as _i11;
 import 'package:oisely_server/src/generated/protocol.dart';
 import 'package:oisely_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -143,6 +145,8 @@ class TestEndpoints {
 
   late final _MagicLinkEndpoint magicLink;
 
+  late final _NearbyServicesEndpoint nearbyServices;
+
   late final _GreetingEndpoint greeting;
 }
 
@@ -174,6 +178,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     magicLink = _MagicLinkEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    nearbyServices = _NearbyServicesEndpoint(
       endpoints,
       serializationManager,
     );
@@ -776,6 +784,93 @@ class _MagicLinkEndpoint {
   }
 }
 
+class _NearbyServicesEndpoint {
+  _NearbyServicesEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<_i10.NearbyPlacesResponse> searchNearbyServices(
+    _i1.TestSessionBuilder sessionBuilder,
+    double latitude,
+    double longitude, {
+    required int radius,
+    required String types,
+    String? pageToken,
+  }) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'nearbyServices',
+            method: 'searchNearbyServices',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'nearbyServices',
+          methodName: 'searchNearbyServices',
+          parameters: _i1.testObjectToJson({
+            'latitude': latitude,
+            'longitude': longitude,
+            'radius': radius,
+            'types': types,
+            'pageToken': pageToken,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i10.NearbyPlacesResponse>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<String> getPlacePhotoUrl(
+    _i1.TestSessionBuilder sessionBuilder,
+    String photoReference, {
+    required int maxWidth,
+  }) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'nearbyServices',
+            method: 'getPlacePhotoUrl',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'nearbyServices',
+          methodName: 'getPlacePhotoUrl',
+          parameters: _i1.testObjectToJson({
+            'photoReference': photoReference,
+            'maxWidth': maxWidth,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<String>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
 class _GreetingEndpoint {
   _GreetingEndpoint(
     this._endpointDispatch,
@@ -786,7 +881,7 @@ class _GreetingEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i10.Greeting> hello(
+  _i3.Future<_i11.Greeting> hello(
     _i1.TestSessionBuilder sessionBuilder,
     String name,
   ) async {
@@ -809,7 +904,7 @@ class _GreetingEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i10.Greeting>);
+                as _i3.Future<_i11.Greeting>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

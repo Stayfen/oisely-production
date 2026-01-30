@@ -16,6 +16,7 @@ import 'models/animal.dart';
 import 'providers/adoption_provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/navigation_provider.dart';
+import 'providers/nearby_services_provider.dart';
 import 'screens/animal_detail_screen.dart';
 import 'screens/main_shell.dart';
 import 'screens/sign_in_screen.dart';
@@ -112,6 +113,9 @@ class _AppBootstrapState extends State<AppBootstrap>
               ),
               ChangeNotifierProvider(
                 create: (_) => AdoptionProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => NearbyServicesProvider(client),
               ),
             ],
             child: MyApp(sessionManager: snapshot.data!),
@@ -301,9 +305,14 @@ class _MainShellWrapperState extends State<MainShellWrapper> {
   }
 
   Future<File> _compressImage(File file) async {
-    final dir = await getTemporaryDirectory();
+    // Use application documents directory for persistent storage
+    final dir = await getApplicationDocumentsDirectory();
+    final imagesDir = Directory('${dir.path}/animal_images');
+    if (!await imagesDir.exists()) {
+      await imagesDir.create(recursive: true);
+    }
     final targetPath =
-        '${dir.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg';
+        '${imagesDir.path}/animal_${DateTime.now().millisecondsSinceEpoch}.jpg';
 
     final result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
