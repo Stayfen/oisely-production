@@ -4,9 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import '../design_system/core/oisely_colors.dart';
-import '../design_system/core/oisely_shapes.dart';
-import '../design_system/core/oisely_spacing.dart';
-import '../design_system/core/oisely_typography.dart';
 
 /// Professional Hero section with glassmorphism and modern design.
 /// Responsive: Full width/height on mobile, Left side on desktop.
@@ -98,34 +95,34 @@ class AuthHeroSection extends StatelessWidget {
       children: [
         // Glass container with logo
         ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withAlpha(30),
-                    Colors.white.withAlpha(10),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.white.withAlpha(40),
-                  width: 1.5,
+              borderRadius: BorderRadius.circular(20),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withAlpha(30),
+                        Colors.white.withAlpha(10),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.white.withAlpha(40),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Image.asset(
+                    'assets/icons/icon.png',
+                    width: 36,
+                    height: 36,
+                  ),
                 ),
               ),
-              child: Image.asset(
-                'assets/icons/icon.png',
-                width: 36,
-                height: 36,
-              ),
-            ),
-          ),
-        )
+            )
             .animate()
             .scale(
               begin: const Offset(0.5, 0.5),
@@ -136,28 +133,28 @@ class AuthHeroSection extends StatelessWidget {
             .fadeIn(duration: 400.ms),
         const SizedBox(width: 16),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Oisely',
-              style: GoogleFonts.inter(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-                letterSpacing: -0.5,
-              ),
-            ),
-            Text(
-              'Pet Intelligence',
-              style: GoogleFonts.inter(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Colors.white.withAlpha(180),
-                letterSpacing: 1.5,
-              ),
-            ),
-          ],
-        )
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Oisely',
+                  style: GoogleFonts.inter(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                Text(
+                  'Pet Intelligence',
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white.withAlpha(180),
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ],
+            )
             .animate()
             .fadeIn(delay: 200.ms, duration: 400.ms)
             .moveX(begin: -15, end: 0, duration: 400.ms),
@@ -170,79 +167,79 @@ class AuthHeroSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Your Pet\'s',
-          style: GoogleFonts.inter(
-            fontSize: isDesktop ? 44 : 32,
-            fontWeight: FontWeight.w300,
-            color: Colors.white.withAlpha(230),
-            height: 1.1,
-            letterSpacing: -1,
-          ),
-        )
+              'Your Pet\'s',
+              style: GoogleFonts.inter(
+                fontSize: isDesktop ? 44 : 32,
+                fontWeight: FontWeight.w300,
+                color: Colors.white.withAlpha(230),
+                height: 1.1,
+                letterSpacing: -1,
+              ),
+            )
             .animate()
             .fadeIn(delay: 300.ms, duration: 500.ms)
             .moveY(begin: 20, end: 0, duration: 500.ms),
         const SizedBox(height: 4),
         ShaderMask(
-          shaderCallback: (bounds) => const LinearGradient(
-            colors: [
-              Colors.white,
-              Color(0xFF5DADE2),
-              Color(0xFF20B2AA),
-            ],
-          ).createShader(bounds),
-          child: Text(
-            'AI Guardian',
-            style: GoogleFonts.inter(
-              fontSize: isDesktop ? 52 : 38,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
-              height: 1.1,
-              letterSpacing: -1.5,
-            ),
-          ),
-        )
+              shaderCallback: (bounds) => const LinearGradient(
+                colors: [
+                  Colors.white,
+                  Color(0xFF5DADE2),
+                  Color(0xFF20B2AA),
+                ],
+              ).createShader(bounds),
+              child: Text(
+                'AI Guardian',
+                style: GoogleFonts.inter(
+                  fontSize: isDesktop ? 52 : 38,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                  height: 1.1,
+                  letterSpacing: -1.5,
+                ),
+              ),
+            )
             .animate()
             .fadeIn(delay: 400.ms, duration: 500.ms)
             .moveY(begin: 20, end: 0, duration: 500.ms),
         const SizedBox(height: 16),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.white.withAlpha(15),
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(color: Colors.white.withAlpha(20)),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: OiselyColors.primary,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: OiselyColors.primary.withAlpha(150),
-                      blurRadius: 8,
-                      spreadRadius: 2,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(15),
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(color: Colors.white.withAlpha(20)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: OiselyColors.primary,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: OiselyColors.primary.withAlpha(150),
+                          blurRadius: 8,
+                          spreadRadius: 2,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Powered by Advanced AI',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white.withAlpha(200),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 10),
-              Text(
-                'Powered by Advanced AI',
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white.withAlpha(200),
-                ),
-              ),
-            ],
-          ),
-        )
+            )
             .animate()
             .fadeIn(delay: 500.ms, duration: 400.ms)
             .scale(begin: const Offset(0.9, 0.9), duration: 400.ms),
@@ -284,10 +281,12 @@ class AuthHeroSection extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: features
-              .map((f) => Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: _FeatureCardCompact(data: f),
-                  ))
+              .map(
+                (f) => Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: _FeatureCardCompact(data: f),
+                ),
+              )
               .toList(),
         ),
       );
@@ -325,16 +324,16 @@ class _GlowingOrb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: RadialGradient(
-          colors: [color, color.withAlpha(0)],
-          stops: const [0.0, 1.0],
-        ),
-      ),
-    )
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              colors: [color, color.withAlpha(0)],
+              stops: const [0.0, 1.0],
+            ),
+          ),
+        )
         .animate(onPlay: (c) => c.repeat(reverse: true))
         .scale(
           begin: const Offset(1, 1),
@@ -375,79 +374,79 @@ class _FeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white.withAlpha(15),
-                  Colors.white.withAlpha(5),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: Colors.white.withAlpha(20),
-              ),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: data.gradient),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: data.gradient.first.withAlpha(80),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
+          padding: const EdgeInsets.only(bottom: 16),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white.withAlpha(15),
+                      Colors.white.withAlpha(5),
                     ],
                   ),
-                  child: Icon(data.icon, color: Colors.white, size: 22),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data.title,
-                        style: GoogleFonts.inter(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        data.description,
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          color: Colors.white.withAlpha(180),
-                        ),
-                      ),
-                    ],
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: Colors.white.withAlpha(20),
                   ),
                 ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 14,
-                  color: Colors.white.withAlpha(100),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: data.gradient),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: data.gradient.first.withAlpha(80),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Icon(data.icon, color: Colors.white, size: 22),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            data.title,
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            data.description,
+                            style: GoogleFonts.inter(
+                              fontSize: 12,
+                              color: Colors.white.withAlpha(180),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 14,
+                      color: Colors.white.withAlpha(100),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    )
+        )
         .animate()
         .fadeIn(
           delay: Duration(milliseconds: data.delay),
@@ -465,128 +464,66 @@ class _FeatureCardCompact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(14),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          width: 130,
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.white.withAlpha(15),
-                Colors.white.withAlpha(5),
-              ],
-            ),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: Colors.white.withAlpha(20),
+          borderRadius: BorderRadius.circular(14),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
+              width: 130,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withAlpha(15),
+                    Colors.white.withAlpha(5),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: Colors.white.withAlpha(20),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: data.gradient),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(data.icon, color: Colors.white, size: 18),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    data.title,
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    data.description,
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      color: Colors.white.withAlpha(180),
+                    ),
+                    maxLines: 2,
+                  ),
+                ],
+              ),
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: data.gradient),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(data.icon, color: Colors.white, size: 18),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                data.title,
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                data.description,
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  color: Colors.white.withAlpha(180),
-                ),
-                maxLines: 2,
-              ),
-            ],
-          ),
-        ),
-      ),
-    )
+        )
         .animate()
         .fadeIn(
           delay: Duration(milliseconds: data.delay),
           duration: 400.ms,
         )
         .moveY(begin: 15, end: 0, duration: 400.ms);
-  }
-}
-
-// Legacy support - kept for backward compatibility
-class _AnimatedFeatureItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String description;
-  final int delay;
-  final Color accentColor;
-
-  const _AnimatedFeatureItem({
-    required this.icon,
-    required this.title,
-    required this.description,
-    required this.delay,
-    required this.accentColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-          padding: const EdgeInsets.only(bottom: OiselySpacing.lg),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: accentColor.withAlpha(60),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Icon(icon, color: Colors.white, size: 22),
-              ),
-              const SizedBox(width: OiselySpacing.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: OiselyTypography.h6.copyWith(color: Colors.white),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      description,
-                      style: OiselyTypography.bodySmall.copyWith(
-                        color: Colors.white.withAlpha(200),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )
-        .animate()
-        .fadeIn(
-          delay: Duration(milliseconds: delay),
-          duration: 400.ms,
-        )
-        .moveX(begin: -30, end: 0, duration: 400.ms);
   }
 }
 
@@ -626,28 +563,28 @@ class _AuthFormSectionState extends State<AuthFormSection> {
               children: [
                 // Animated logo container
                 Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        OiselyColors.primary.withAlpha(20),
-                        OiselyColors.secondary.withAlpha(15),
-                      ],
-                    ),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: OiselyColors.primary.withAlpha(30),
-                      width: 2,
-                    ),
-                  ),
-                  child: Image.asset(
-                    'assets/icons/icon.png',
-                    width: 56,
-                    height: 56,
-                  ),
-                )
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            OiselyColors.primary.withAlpha(20),
+                            OiselyColors.secondary.withAlpha(15),
+                          ],
+                        ),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: OiselyColors.primary.withAlpha(30),
+                          width: 2,
+                        ),
+                      ),
+                      child: Image.asset(
+                        'assets/icons/icon.png',
+                        width: 56,
+                        height: 56,
+                      ),
+                    )
                     .animate()
                     .scale(
                       begin: const Offset(0.7, 0.7),
@@ -659,14 +596,14 @@ class _AuthFormSectionState extends State<AuthFormSection> {
                 const SizedBox(height: 28),
                 // Welcome text
                 Text(
-                  'Welcome back',
-                  style: GoogleFonts.inter(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                    color: OiselyColors.onBackground,
-                    letterSpacing: -0.5,
-                  ),
-                )
+                      'Welcome back',
+                      style: GoogleFonts.inter(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w700,
+                        color: OiselyColors.onBackground,
+                        letterSpacing: -0.5,
+                      ),
+                    )
                     .animate()
                     .fadeIn(delay: 150.ms, duration: 400.ms)
                     .moveY(begin: 10, end: 0, duration: 400.ms),
@@ -679,9 +616,7 @@ class _AuthFormSectionState extends State<AuthFormSection> {
                     height: 1.5,
                   ),
                   textAlign: TextAlign.center,
-                )
-                    .animate()
-                    .fadeIn(delay: 250.ms, duration: 400.ms),
+                ).animate().fadeIn(delay: 250.ms, duration: 400.ms),
               ],
             ),
           ),
@@ -690,129 +625,130 @@ class _AuthFormSectionState extends State<AuthFormSection> {
           // Error Message with refined styling
           if (widget.errorMessage != null)
             Container(
-              padding: const EdgeInsets.all(16),
-              margin: const EdgeInsets.only(bottom: 24),
-              decoration: BoxDecoration(
-                color: OiselyColors.error.withAlpha(12),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: OiselyColors.error.withAlpha(40)),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: OiselyColors.error.withAlpha(25),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(
-                      Icons.error_outline_rounded,
-                      color: OiselyColors.error,
-                      size: 18,
-                    ),
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.only(bottom: 24),
+                  decoration: BoxDecoration(
+                    color: OiselyColors.error.withAlpha(12),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: OiselyColors.error.withAlpha(40)),
                   ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Text(
-                      widget.errorMessage!,
-                      style: GoogleFonts.inter(
-                        fontSize: 13,
-                        color: OiselyColors.error,
-                        fontWeight: FontWeight.w500,
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: OiselyColors.error.withAlpha(25),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(
+                          Icons.error_outline_rounded,
+                          color: OiselyColors.error,
+                          size: 18,
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Text(
+                          widget.errorMessage!,
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            color: OiselyColors.error,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
+                )
                 .animate()
                 .fadeIn(duration: 300.ms)
                 .shakeX(hz: 3, amount: 4, duration: 400.ms),
 
           // Email input section
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Email address',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: OiselyColors.onSurface,
-                  letterSpacing: 0.2,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Focus(
-                onFocusChange: (focused) => setState(() => _isFocused = focused),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    boxShadow: _isFocused
-                        ? [
-                            BoxShadow(
-                              color: OiselyColors.primary.withAlpha(25),
-                              blurRadius: 20,
-                              offset: const Offset(0, 4),
-                            ),
-                          ]
-                        : [],
-                  ),
-                  child: TextField(
-                    controller: widget.emailController,
-                    keyboardType: TextInputType.emailAddress,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Email address',
                     style: GoogleFonts.inter(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
                       color: OiselyColors.onSurface,
+                      letterSpacing: 0.2,
                     ),
-                    decoration: InputDecoration(
-                      hintText: 'name@example.com',
-                      hintStyle: GoogleFonts.inter(
-                        fontSize: 15,
-                        color: OiselyColors.onSurfaceVariant.withAlpha(150),
-                      ),
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(14),
-                        child: Icon(
-                          Icons.mail_outline_rounded,
-                          color: _isFocused
-                              ? OiselyColors.primary
-                              : OiselyColors.onSurfaceVariant,
-                          size: 22,
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: OiselyColors.surfaceVariant.withAlpha(80),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide.none,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: BorderSide(
-                          color: OiselyColors.outline.withAlpha(60),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(
-                          color: OiselyColors.primary,
-                          width: 2,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 18,
-                      ),
-                    ),
-                    onSubmitted: (_) => widget.onSendCode(),
                   ),
-                ),
-              ),
-            ],
-          )
+                  const SizedBox(height: 10),
+                  Focus(
+                    onFocusChange: (focused) =>
+                        setState(() => _isFocused = focused),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: _isFocused
+                            ? [
+                                BoxShadow(
+                                  color: OiselyColors.primary.withAlpha(25),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ]
+                            : [],
+                      ),
+                      child: TextField(
+                        controller: widget.emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: OiselyColors.onSurface,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'name@example.com',
+                          hintStyle: GoogleFonts.inter(
+                            fontSize: 15,
+                            color: OiselyColors.onSurfaceVariant.withAlpha(150),
+                          ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Icon(
+                              Icons.mail_outline_rounded,
+                              color: _isFocused
+                                  ? OiselyColors.primary
+                                  : OiselyColors.onSurfaceVariant,
+                              size: 22,
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: OiselyColors.surfaceVariant.withAlpha(80),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(
+                              color: OiselyColors.outline.withAlpha(60),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(
+                              color: OiselyColors.primary,
+                              width: 2,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 18,
+                          ),
+                        ),
+                        onSubmitted: (_) => widget.onSendCode(),
+                      ),
+                    ),
+                  ),
+                ],
+              )
               .animate()
               .fadeIn(delay: 350.ms, duration: 400.ms)
               .moveY(begin: 15, end: 0, duration: 400.ms),
@@ -820,11 +756,11 @@ class _AuthFormSectionState extends State<AuthFormSection> {
 
           // Submit Button
           _ModernSubmitButton(
-            isLoading: widget.isLoading,
-            onPressed: widget.onSendCode,
-            label: 'Continue with Email',
-            icon: Icons.arrow_forward_rounded,
-          )
+                isLoading: widget.isLoading,
+                onPressed: widget.onSendCode,
+                label: 'Continue with Email',
+                icon: Icons.arrow_forward_rounded,
+              )
               .animate()
               .fadeIn(delay: 450.ms, duration: 400.ms)
               .moveY(begin: 15, end: 0, duration: 400.ms),
@@ -858,15 +794,15 @@ class _AuthFormSectionState extends State<AuthFormSection> {
                 ],
               ),
             ),
-          )
-              .animate()
-              .fadeIn(delay: 550.ms, duration: 400.ms),
+          ).animate().fadeIn(delay: 550.ms, duration: 400.ms),
           const SizedBox(height: 40),
 
           // Social sign-in divider (visual only - no backend change)
           Row(
             children: [
-              Expanded(child: Divider(color: OiselyColors.outline.withAlpha(60))),
+              Expanded(
+                child: Divider(color: OiselyColors.outline.withAlpha(60)),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -877,11 +813,11 @@ class _AuthFormSectionState extends State<AuthFormSection> {
                   ),
                 ),
               ),
-              Expanded(child: Divider(color: OiselyColors.outline.withAlpha(60))),
+              Expanded(
+                child: Divider(color: OiselyColors.outline.withAlpha(60)),
+              ),
             ],
-          )
-              .animate()
-              .fadeIn(delay: 650.ms, duration: 400.ms),
+          ).animate().fadeIn(delay: 650.ms, duration: 400.ms),
           const SizedBox(height: 20),
 
           // Social buttons placeholder
@@ -1037,86 +973,57 @@ class _SocialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('$label sign-in coming soon!'),
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          );
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          decoration: BoxDecoration(
-            color: OiselyColors.surfaceVariant.withAlpha(60),
+          color: Colors.transparent,
+          child: InkWell(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: OiselyColors.outline.withAlpha(40),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('$label sign-in coming soon!'),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+              decoration: BoxDecoration(
+                color: OiselyColors.surfaceVariant.withAlpha(60),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: OiselyColors.outline.withAlpha(40),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    icon,
+                    size: 22,
+                    color: OiselyColors.onSurface,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    label,
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: OiselyColors.onSurface,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                size: 22,
-                color: OiselyColors.onSurface,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: OiselyColors.onSurface,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    )
+        )
         .animate()
-        .fadeIn(delay: Duration(milliseconds: delay), duration: 300.ms)
+        .fadeIn(
+          delay: Duration(milliseconds: delay),
+          duration: 300.ms,
+        )
         .scale(begin: const Offset(0.95, 0.95), duration: 300.ms);
-  }
-}
-                    Text(
-                      'Sending...',
-                      style: OiselyTypography.button.copyWith(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.label,
-                      style: OiselyTypography.button.copyWith(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(width: OiselySpacing.sm),
-                    const Icon(
-                      Icons.arrow_forward_rounded,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-        ),
-      ),
-    );
   }
 }
 
@@ -1164,30 +1071,30 @@ class AuthCodeVerifySection extends StatelessWidget {
         children: [
           // Email sent illustration
           Center(
-            child: Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    OiselyColors.primary.withAlpha(20),
-                    OiselyColors.tertiary.withAlpha(15),
-                  ],
+                child: Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        OiselyColors.primary.withAlpha(20),
+                        OiselyColors.tertiary.withAlpha(15),
+                      ],
+                    ),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: OiselyColors.primary.withAlpha(30),
+                      width: 2,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.mark_email_read_rounded,
+                    size: 48,
+                    color: OiselyColors.primary,
+                  ),
                 ),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: OiselyColors.primary.withAlpha(30),
-                  width: 2,
-                ),
-              ),
-              child: Icon(
-                Icons.mark_email_read_rounded,
-                size: 48,
-                color: OiselyColors.primary,
-              ),
-            ),
-          )
+              )
               .animate()
               .scale(
                 begin: const Offset(0.5, 0.5),
@@ -1200,15 +1107,15 @@ class AuthCodeVerifySection extends StatelessWidget {
 
           // Title
           Text(
-            'Check your inbox',
-            style: GoogleFonts.inter(
-              fontSize: 26,
-              fontWeight: FontWeight.w700,
-              color: OiselyColors.onBackground,
-              letterSpacing: -0.5,
-            ),
-            textAlign: TextAlign.center,
-          )
+                'Check your inbox',
+                style: GoogleFonts.inter(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w700,
+                  color: OiselyColors.onBackground,
+                  letterSpacing: -0.5,
+                ),
+                textAlign: TextAlign.center,
+              )
               .animate()
               .fadeIn(delay: 150.ms, duration: 400.ms)
               .moveY(begin: 10, end: 0, duration: 400.ms),
@@ -1234,92 +1141,90 @@ class AuthCodeVerifySection extends StatelessWidget {
                 ),
               ],
             ),
-          )
-              .animate()
-              .fadeIn(delay: 250.ms, duration: 400.ms),
+          ).animate().fadeIn(delay: 250.ms, duration: 400.ms),
           const SizedBox(height: 36),
 
           // Error Message
           if (errorMessage != null)
             Container(
-              padding: const EdgeInsets.all(14),
-              margin: const EdgeInsets.only(bottom: 24),
-              decoration: BoxDecoration(
-                color: OiselyColors.error.withAlpha(12),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: OiselyColors.error.withAlpha(40)),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.error_outline_rounded,
-                    color: OiselyColors.error,
-                    size: 20,
+                  padding: const EdgeInsets.all(14),
+                  margin: const EdgeInsets.only(bottom: 24),
+                  decoration: BoxDecoration(
+                    color: OiselyColors.error.withAlpha(12),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: OiselyColors.error.withAlpha(40)),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      errorMessage!,
-                      style: GoogleFonts.inter(
-                        fontSize: 13,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.error_outline_rounded,
                         color: OiselyColors.error,
-                        fontWeight: FontWeight.w500,
+                        size: 20,
                       ),
-                    ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          errorMessage!,
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            color: OiselyColors.error,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
+                )
                 .animate()
                 .fadeIn(duration: 300.ms)
                 .shakeX(hz: 3, amount: 4, duration: 400.ms),
 
           // PIN Input
           Center(
-            child: Pinput(
-              controller: otpController,
-              length: 6,
-              defaultPinTheme: defaultPinTheme,
-              focusedPinTheme: defaultPinTheme.copyWith(
-                decoration: defaultPinTheme.decoration!.copyWith(
-                  border: Border.all(color: OiselyColors.primary, width: 2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: OiselyColors.primary.withAlpha(30),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-              ),
-              submittedPinTheme: defaultPinTheme.copyWith(
-                decoration: defaultPinTheme.decoration!.copyWith(
-                  color: OiselyColors.primary.withAlpha(15),
-                  border: Border.all(color: OiselyColors.primary),
-                ),
-              ),
-              errorPinTheme: defaultPinTheme.copyWith(
-                decoration: defaultPinTheme.decoration!.copyWith(
-                  border: Border.all(color: OiselyColors.error, width: 2),
-                ),
-              ),
-              hapticFeedbackType: HapticFeedbackType.lightImpact,
-              onCompleted: onVerify,
-              cursor: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    width: 20,
-                    height: 3,
-                    decoration: BoxDecoration(
-                      color: OiselyColors.primary,
-                      borderRadius: BorderRadius.circular(4),
+                child: Pinput(
+                  controller: otpController,
+                  length: 6,
+                  defaultPinTheme: defaultPinTheme,
+                  focusedPinTheme: defaultPinTheme.copyWith(
+                    decoration: defaultPinTheme.decoration!.copyWith(
+                      border: Border.all(color: OiselyColors.primary, width: 2),
+                      boxShadow: [
+                        BoxShadow(
+                          color: OiselyColors.primary.withAlpha(30),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          )
+                  submittedPinTheme: defaultPinTheme.copyWith(
+                    decoration: defaultPinTheme.decoration!.copyWith(
+                      color: OiselyColors.primary.withAlpha(15),
+                      border: Border.all(color: OiselyColors.primary),
+                    ),
+                  ),
+                  errorPinTheme: defaultPinTheme.copyWith(
+                    decoration: defaultPinTheme.decoration!.copyWith(
+                      border: Border.all(color: OiselyColors.error, width: 2),
+                    ),
+                  ),
+                  hapticFeedbackType: HapticFeedbackType.lightImpact,
+                  onCompleted: onVerify,
+                  cursor: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: 20,
+                        height: 3,
+                        decoration: BoxDecoration(
+                          color: OiselyColors.primary,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
               .animate()
               .fadeIn(delay: 350.ms, duration: 400.ms)
               .moveY(begin: 15, end: 0, duration: 400.ms),
@@ -1327,11 +1232,11 @@ class AuthCodeVerifySection extends StatelessWidget {
 
           // Verify Button
           _ModernSubmitButton(
-            isLoading: isLoading,
-            onPressed: () => onVerify(otpController.text),
-            label: 'Verify & Continue',
-            icon: Icons.check_rounded,
-          )
+                isLoading: isLoading,
+                onPressed: () => onVerify(otpController.text),
+                label: 'Verify & Continue',
+                icon: Icons.check_rounded,
+              )
               .animate()
               .fadeIn(delay: 450.ms, duration: 400.ms)
               .moveY(begin: 15, end: 0, duration: 400.ms),
@@ -1370,9 +1275,7 @@ class AuthCodeVerifySection extends StatelessWidget {
                 ],
               ),
             ),
-          )
-              .animate()
-              .fadeIn(delay: 550.ms, duration: 400.ms),
+          ).animate().fadeIn(delay: 550.ms, duration: 400.ms),
           const SizedBox(height: 20),
 
           // Back button
@@ -1393,12 +1296,13 @@ class AuthCodeVerifySection extends StatelessWidget {
                 ),
               ),
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
               ),
             ),
-          )
-              .animate()
-              .fadeIn(delay: 650.ms, duration: 400.ms),
+          ).animate().fadeIn(delay: 650.ms, duration: 400.ms),
         ],
       ),
     );
