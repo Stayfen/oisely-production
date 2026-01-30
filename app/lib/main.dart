@@ -124,6 +124,7 @@ class _AppBootstrapState extends State<AppBootstrap>
         if (snapshot.hasError) {
           return MaterialApp(
             home: Scaffold(
+              drawerEnableOpenDragGesture: false,
               backgroundColor: Colors.white,
               body: Center(
                 child: Column(

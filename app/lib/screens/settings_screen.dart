@@ -5,8 +5,13 @@ import 'package:provider/provider.dart';
 import '../design_system/core/oisely_colors.dart';
 import '../design_system/core/oisely_shapes.dart';
 import '../design_system/core/oisely_spacing.dart';
+import '../providers/adoption_provider.dart';
 import '../providers/auth_provider.dart';
 import '../providers/navigation_provider.dart';
+import 'help_center_screen.dart';
+import 'my_pets_screen.dart';
+import 'privacy_policy_screen.dart';
+import 'scan_history_screen.dart';
 import 'sign_in_screen.dart';
 
 /// Settings screen for user preferences and account management
@@ -88,8 +93,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.all(OiselySpacing.lg),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                // User profile section (Avatar + Email)
-                _buildProfileSection(context, authProvider)
+                // User profile section (Avatar + Email) - tappable
+                GestureDetector(
+                  onTap: () => _showProfileBottomSheet(context, authProvider),
+                  child: _buildProfileSection(context, authProvider),
+                )
                     .animate()
                     .fadeIn(duration: 400.ms)
                     .moveY(begin: 20, end: 0, duration: 400.ms),
@@ -102,7 +110,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   '⚡',
                 ).animate().fadeIn(delay: 100.ms, duration: 300.ms),
                 const SizedBox(height: OiselySpacing.sm),
-                _buildQuickActionsCard()
+                _buildQuickActionsCard(context)
                     .animate()
                     .fadeIn(delay: 150.ms, duration: 400.ms)
                     .moveY(begin: 15, end: 0, duration: 400.ms),
@@ -151,7 +159,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           subtitle: 'Get help with Oisely',
                           accentColor: OiselyColors.secondary,
                           onTap: () {
-                            // TODO: Show help center
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const HelpCenterScreen(),
+                              ),
+                            );
                           },
                         ),
                         _SettingsTile(
@@ -159,7 +171,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           title: 'Privacy Policy',
                           accentColor: OiselyColors.accentLavender,
                           onTap: () {
-                            // TODO: Show privacy policy
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const PrivacyPolicyScreen(),
+                              ),
+                            );
                           },
                         ),
                         _SettingsTile(
@@ -328,7 +344,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildQuickActionsCard() {
+  Widget _buildQuickActionsCard(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(OiselySpacing.md),
       decoration: BoxDecoration(
@@ -351,7 +367,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
               label: 'Scan Pet',
               color: OiselyColors.secondary,
               onTap: () {
-                // TODO: Open camera
+                // Navigate to home and show hint to use FAB
+                context.read<NavigationProvider>().setIndex(0);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      children: [
+                        Icon(Icons.touch_app, color: Colors.white, size: 20),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                          child: Text('Tap the + button to scan a pet!'),
+                        ),
+                      ],
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: OiselyColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
               },
             ),
           ),
@@ -362,7 +398,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               label: 'My Pets',
               color: OiselyColors.accentCoral,
               onTap: () {
-                // TODO: Show my pets
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const MyPetsScreen()),
+                );
               },
             ),
           ),
@@ -373,7 +411,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               label: 'History',
               color: OiselyColors.accentTeal,
               onTap: () {
-                // TODO: Show history
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const ScanHistoryScreen()),
+                );
               },
             ),
           ),
@@ -414,15 +454,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 80,
-                height: 80,
+                width: 88,
+                height: 88,
                 decoration: BoxDecoration(
-                  gradient: OiselyColors.primaryGradient,
-                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(22),
                   boxShadow: OiselyShapes.primaryShadow(OiselyColors.primary),
                 ),
-                child: const Center(
-                  child: Text('🐾', style: TextStyle(fontSize: 40)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.asset(
+                    'assets/icons/icon.png',
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ).animate().scale(
                 begin: const Offset(0.5, 0.5),
@@ -494,6 +538,198 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showProfileBottomSheet(BuildContext context, AuthProvider authProvider) {
+    final adoptionProvider = context.read<AdoptionProvider>();
+    final colorScheme = Theme.of(context).colorScheme;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) =>
+          Container(
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(OiselyShapes.bottomSheetRadius),
+                  ),
+                  boxShadow: OiselyShapes.strongShadow,
+                ),
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Container(
+                            width: 48,
+                            height: 5,
+                            decoration: BoxDecoration(
+                              color: OiselyColors.grey300,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 28),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                gradient: OiselyColors.primaryGradient,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: const Icon(
+                                Icons.person_outline,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Account',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: OiselyColors.onSurface,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    authProvider.userDisplayName,
+                                    style: TextStyle(
+                                      color: OiselyColors.onSurfaceVariant,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        // Stats row
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: OiselyColors.surfaceVariant.withAlpha(80),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: _ProfileStat(
+                                  icon: Icons.pets,
+                                  label: 'Total Scans',
+                                  value: '${adoptionProvider.interestingAnimals.length + adoptionProvider.adoptedAnimals.length}',
+                                  color: OiselyColors.primary,
+                                ),
+                              ),
+                              Container(
+                                width: 1,
+                                height: 40,
+                                color: OiselyColors.outline.withAlpha(60),
+                              ),
+                              Expanded(
+                                child: _ProfileStat(
+                                  icon: Icons.favorite,
+                                  label: 'Adopted',
+                                  value: '${adoptionProvider.adoptedAnimals.length}',
+                                  color: OiselyColors.accentCoral,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        const Divider(),
+                        const SizedBox(height: 16),
+                        // Sign out tile
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () async {
+                              Navigator.pop(context);
+                              await authProvider.signOut();
+                              await adoptionProvider.clearAll();
+                              if (mounted) {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (_) => SignInScreen(
+                                      sessionManager: authProvider.sessionManager,
+                                    ),
+                                  ),
+                                  (route) => false,
+                                );
+                              }
+                            },
+                            borderRadius: BorderRadius.circular(12),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              ),
+                              decoration: BoxDecoration(
+                                color: OiselyColors.error.withAlpha(20),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: OiselyColors.error.withAlpha(40),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.logout_rounded,
+                                    color: OiselyColors.error,
+                                    size: 22,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    'Sign Out',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: OiselyColors.error,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          child: TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            child: const Text('Cancel'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+              .animate()
+              .fadeIn(duration: 200.ms)
+              .moveY(
+                begin: 50,
+                end: 0,
+                duration: 300.ms,
+                curve: Curves.easeOut,
+              ),
     );
   }
 
@@ -902,6 +1138,45 @@ class _SwitchSettingsTile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+/// Profile stat widget for bottom sheet
+class _ProfileStat extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color color;
+
+  const _ProfileStat({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(icon, color: color, size: 24),
+        const SizedBox(height: 6),
+        Text(
+          value,
+          style: GoogleFonts.inter(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: OiselyColors.onSurface,
+          ),
+        ),
+        Text(
+          label,
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            color: OiselyColors.onSurfaceVariant,
+          ),
+        ),
+      ],
     );
   }
 }

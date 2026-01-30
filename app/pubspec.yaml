@@ -100,6 +100,8 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
   assets:
     - assets/config.json
+    - assets/icons/icon.png
+
 dependency_overrides:
   flutter_secure_storage: ^10.0.0
 

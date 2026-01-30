@@ -34,26 +34,26 @@ class OiselyColors {
   static const Color onPrimaryContainer = Color(0xFF145A32);
 
   // ====================
-  // Secondary Colors (Warm Sunset Orange)
+  // Secondary Colors (Aqua Teal - Ocean Inspired)
   // ====================
 
-  /// Secondary - Playful orange (parrot/tiger inspired)
-  static const Color secondary = Color(0xFFFF8C42);
+  /// Secondary - Tropical teal (sea turtle/ocean inspired)
+  static const Color secondary = Color(0xFF20B2AA);
 
   /// Secondary light
-  static const Color secondaryLight = Color(0xFFFFB380);
+  static const Color secondaryLight = Color(0xFF5DCFCC);
 
   /// Secondary dark
-  static const Color secondaryDark = Color(0xFFE67300);
+  static const Color secondaryDark = Color(0xFF178F89);
 
   /// Secondary container
-  static const Color secondaryContainer = Color(0xFFFFE5D0);
+  static const Color secondaryContainer = Color(0xFFD0F4F2);
 
   /// On secondary
   static const Color onSecondary = Color(0xFFFFFFFF);
 
   /// On secondary container
-  static const Color onSecondaryContainer = Color(0xFF8B4513);
+  static const Color onSecondaryContainer = Color(0xFF0D4744);
 
   // ====================
   // Tertiary Colors (Tropical Sky Blue)

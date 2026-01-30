@@ -208,22 +208,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       // Logo
                       Row(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              gradient: OiselyColors.primaryGradient,
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: OiselyShapes.primaryShadow(
-                                OiselyColors.primary,
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.pets,
-                              color: Colors.white,
-                              size: 20,
-                            ),
+                          Image.asset(
+                            'assets/icons/icon.png',
+                            width: 52,
+                            height: 52,
+                            fit: BoxFit.contain,
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 10),
                           Text(
                             'Oisely',
                             style: GoogleFonts.inter(
@@ -234,44 +225,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ),
                         ],
                       ),
-                      // Actions row
-                      Row(
-                        children: [
-                          // Store locator button
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => const NearbyServicesScreen(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: OiselyColors.secondary.withAlpha(20),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: OiselyColors.secondary.withAlpha(40),
-                                ),
-                              ),
-                              child: Icon(
-                                Icons.store_rounded,
-                                color: OiselyColors.secondary,
-                                size: 20,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          // User avatar
-                          GestureDetector(
-                            onTap: () => _showLogoutBottomSheet(context),
-                            child: _AnimatedUserAvatar(
-                              imageUrl: authProvider.userProfileImageUrl,
-                              displayName: authProvider.userDisplayName,
-                            ),
-                          ),
-                        ],
+                      // User avatar
+                      GestureDetector(
+                        onTap: () => _showLogoutBottomSheet(context),
+                        child: _AnimatedUserAvatar(
+                          imageUrl: authProvider.userProfileImageUrl,
+                          displayName: authProvider.userDisplayName,
+                        ),
                       ),
                     ],
                   ),
@@ -288,9 +248,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     const SizedBox(height: 8),
                     // Welcome message with animation
                     _WelcomeSection(displayName: authProvider.userDisplayName),
-                    const SizedBox(height: 28),
+                    const SizedBox(height: 20),
 
-                    // Quick Stats Card
+                    // Nearby Pet Services Card
+                    _NearbyServicesCard(),
+                    const SizedBox(height: 28),
                     _QuickStatsCard(
                       totalAnimals:
                           interestingAnimals.length + adoptedAnimals.length,
@@ -443,6 +405,88 @@ class _WelcomeSection extends StatelessWidget {
     if (hour < 12) return 'Good morning ☀️';
     if (hour < 17) return 'Good afternoon 🌤️';
     return 'Good evening 🌙';
+  }
+}
+
+/// Nearby Pet Services Card for quick access
+class _NearbyServicesCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => const NearbyServicesScreen(),
+          ),
+        );
+      },
+      child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  OiselyColors.secondary.withAlpha(20),
+                  OiselyColors.secondary.withAlpha(40),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
+              border: Border.all(
+                color: OiselyColors.secondary.withAlpha(60),
+                width: 1.5,
+              ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: OiselyColors.secondary.withAlpha(40),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.location_on_rounded,
+                    color: OiselyColors.secondary,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Find Nearby Pet Services',
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: OiselyColors.onSurface,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Vets, pet stores & more near you',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: OiselyColors.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: OiselyColors.secondary,
+                  size: 24,
+                ),
+              ],
+            ),
+          )
+          .animate()
+          .fadeIn(duration: 400.ms)
+          .slideX(begin: 0.05, end: 0, duration: 400.ms),
+    );
   }
 }
 
@@ -940,35 +984,39 @@ class _AnimatedAnimalCard extends StatelessWidget {
 class _AnimatedEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-          padding: const EdgeInsets.all(40),
-          margin: const EdgeInsets.symmetric(vertical: 20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                OiselyColors.primaryContainer.withAlpha(100),
-                OiselyColors.cardGreen.withAlpha(100),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+    return Center(
+      child: Container(
+            padding: const EdgeInsets.all(40),
+            margin: const EdgeInsets.symmetric(vertical: 20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  OiselyColors.primaryContainer.withAlpha(100),
+                  OiselyColors.cardGreen.withAlpha(100),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
+              border: Border.all(
+                color: OiselyColors.primary.withAlpha(50),
+                width: 1.5,
+              ),
             ),
-            borderRadius: BorderRadius.circular(OiselyShapes.cardRadius),
-            border: Border.all(
-              color: OiselyColors.primary.withAlpha(50),
-              width: 1.5,
-            ),
-          ),
-          child: Column(
-            children: [
-              Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: OiselyColors.primaryContainer,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.camera_alt_outlined,
-                      size: 48,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: OiselyColors.primaryContainer,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.camera_alt_outlined,
+                        size: 48,
                       color: OiselyColors.primary,
                     ),
                   )
@@ -1006,13 +1054,13 @@ class _AnimatedEmptyState extends StatelessWidget {
                 ),
               ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
               const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 10,
+                runSpacing: 10,
                 children: [
                   _FeatureChip(icon: Icons.camera_alt, label: 'Snap'),
-                  const SizedBox(width: 12),
                   _FeatureChip(icon: Icons.psychology, label: 'Analyze'),
-                  const SizedBox(width: 12),
                   _FeatureChip(icon: Icons.favorite, label: 'Adopt'),
                 ],
               ).animate().fadeIn(delay: 400.ms, duration: 400.ms),
@@ -1025,7 +1073,8 @@ class _AnimatedEmptyState extends StatelessWidget {
           begin: const Offset(0.95, 0.95),
           end: const Offset(1, 1),
           duration: 500.ms,
-        );
+        ),
+    );
   }
 }
 
@@ -1038,7 +1087,7 @@ class _FeatureChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       decoration: BoxDecoration(
         color: OiselyColors.surface,
         borderRadius: BorderRadius.circular(20),
@@ -1047,12 +1096,12 @@ class _FeatureChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: OiselyColors.primary),
-          const SizedBox(width: 6),
+          Icon(icon, size: 14, color: OiselyColors.primary),
+          const SizedBox(width: 5),
           Text(
             label,
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 12,
               fontWeight: FontWeight.w500,
               color: OiselyColors.onSurface,
             ),
